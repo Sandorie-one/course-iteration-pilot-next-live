@@ -154,7 +154,7 @@ const CoursePerformance = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-6 pt-2">
-                  {performanceData.studentEngagement.map((module) => (
+                  {performanceData.studentEngagement && performanceData.studentEngagement.map((module) => (
                     <div key={module.moduleId} className="space-y-2">
                       <div className="flex justify-between items-center">
                         <h4 className="font-medium">{module.moduleName}</h4>
@@ -224,7 +224,7 @@ const CoursePerformance = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-5">
-                  {performanceData.learningChallenges.map((challenge) => {
+                  {performanceData.learningChallenges && performanceData.learningChallenges.map((challenge) => {
                     const difficultyColor = 
                       challenge.difficulty === "high" ? "bg-red-100 text-red-700" : 
                       challenge.difficulty === "medium" ? "bg-amber-100 text-amber-700" : 

@@ -249,7 +249,7 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
       ];
       
       // Mock performance data
-      const mockPerformanceData = {
+      const mockPerformanceData: PerformanceData = {
         strengths: [
           "Strong student engagement in practical sessions",
           "High completion rate for assignments",
