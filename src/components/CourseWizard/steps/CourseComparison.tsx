@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+
+import React from "react";
 import { useWizard } from "../WizardContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const CourseComparison = () => {
-  const { selectedCourse, courseModules, suggestions, isLoading } = useWizard();
-  const [activeModule, setActiveModule] = useState<string | null>(null);
+  const { courseModules, suggestions, isLoading, selectedCourse } = useWizard();
 
   if (isLoading) {
     return <div className="flex justify-center py-8">Loading course comparison...</div>;
@@ -19,11 +20,6 @@ const CourseComparison = () => {
   // Get selected suggestions
   const selectedSuggestions = suggestions.filter(suggestion => suggestion.selected);
 
-  // Initialize the active module if not set
-  if (!activeModule && courseModules.length > 0) {
-    setActiveModule(courseModules[0].id);
-  }
-
   return (
     <div className="space-y-6 pb-2">
       <div className="mb-6">
@@ -34,92 +30,91 @@ const CourseComparison = () => {
         </p>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="w-full md:w-1/4 space-y-2">
-          <p className="font-medium text-sm text-slate-500 mb-2">Course Modules</p>
-          {courseModules.map(module => (
-            <div 
-              key={module.id}
-              onClick={() => setActiveModule(module.id)}
-              className={`p-3 rounded-md cursor-pointer text-sm ${
-                activeModule === module.id 
-                  ? "bg-primary text-white" 
-                  : "hover:bg-slate-100"
-              }`}
-            >
-              <div className="font-medium">{module.order}. {module.title}</div>
-              {suggestions.filter(s => s.moduleId === module.id && s.selected).length > 0 && (
-                <Badge 
-                  className={`mt-1 ${
-                    activeModule === module.id 
-                      ? "bg-white text-primary" 
-                      : "bg-primary/10 text-primary"
-                  }`}
-                >
-                  {suggestions.filter(s => s.moduleId === module.id && s.selected).length} changes
-                </Badge>
-              )}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Original Course Structure */}
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-medium">Original Course Structure</h3>
+              <Badge variant="outline">Current Version</Badge>
             </div>
-          ))}
-        </div>
-
-        <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {activeModule && (
-            <>
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-medium">Original Module</h3>
-                    <Badge variant="outline">Current Version</Badge>
-                  </div>
-
-                  {courseModules.filter(m => m.id === activeModule).map(module => (
-                    <div key={module.id} className="space-y-4">
-                      <div>
-                        <p className="text-sm text-slate-500">Title</p>
-                        <p className="font-medium">{module.title}</p>
+            <ScrollArea className="h-[600px] pr-4">
+              <div className="space-y-6">
+                {courseModules.map(module => {
+                  // Find suggestions for this module
+                  const moduleSuggestions = suggestions.filter(
+                    s => s.moduleId === module.id && s.selected
+                  );
+                  
+                  return (
+                    <div key={module.id} className="border-b pb-4 last:border-0 last:pb-0">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="font-semibold text-lg">{module.order}. {module.title}</div>
+                        {moduleSuggestions.length > 0 && (
+                          <Badge variant="outline" className="bg-blue-50 text-blue-800">
+                            Has Changes
+                          </Badge>
+                        )}
                       </div>
-                      <div>
-                        <p className="text-sm text-slate-500">Description</p>
-                        <p>{module.description}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-slate-500">Duration</p>
-                        <p>{module.duration} hours</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-slate-500">Components</p>
-                        <ul className="list-disc pl-5 mt-2 space-y-1">
-                          <li>Standard lecture materials</li>
-                          <li>Basic assignments</li>
-                          <li>Text-based resources</li>
-                        </ul>
+                      <div className="space-y-3">
+                        <div>
+                          <p className="text-sm text-slate-500">Description</p>
+                          <p>{module.description}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-slate-500">Duration</p>
+                          <p>{module.duration} hours</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-slate-500">Components</p>
+                          <ul className="list-disc pl-5 mt-2 space-y-1">
+                            <li>Standard lecture materials</li>
+                            <li>Basic assignments</li>
+                            <li>Text-based resources</li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  ))}
-                </CardContent>
-              </Card>
+                  );
+                })}
+              </div>
+            </ScrollArea>
+          </CardContent>
+        </Card>
 
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-medium">Enhanced Module</h3>
-                    <Badge className="bg-green-100 text-green-800 hover:bg-green-200 border-green-200">
-                      Improved Version
-                    </Badge>
-                  </div>
-
-                  {courseModules.filter(m => m.id === activeModule).map(module => {
-                    const moduleSuggestions = suggestions.filter(
-                      s => s.moduleId === module.id && s.selected
-                    );
-                    
-                    return (
-                      <div key={module.id} className="space-y-4">
-                        <div>
-                          <p className="text-sm text-slate-500">Title</p>
-                          <p className="font-medium">{module.title}</p>
-                        </div>
+        {/* Enhanced Course Structure */}
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-medium">Enhanced Course Structure</h3>
+              <Badge className="bg-green-100 text-green-800 hover:bg-green-200 border-green-200">
+                Improved Version
+              </Badge>
+            </div>
+            <ScrollArea className="h-[600px] pr-4">
+              <div className="space-y-6">
+                {courseModules.map(module => {
+                  // Find suggestions for this module
+                  const moduleSuggestions = suggestions.filter(
+                    s => s.moduleId === module.id && s.selected
+                  );
+                  
+                  return (
+                    <div 
+                      key={module.id} 
+                      className={`border-b pb-4 last:border-0 last:pb-0 ${
+                        moduleSuggestions.length > 0 ? 'bg-green-50/50 p-4 rounded-md -mx-4' : ''
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="font-semibold text-lg">{module.order}. {module.title}</div>
+                        {moduleSuggestions.length > 0 && (
+                          <Badge className="bg-green-100 text-green-800">
+                            Enhanced
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="space-y-3">
                         <div>
                           <p className="text-sm text-slate-500">Description</p>
                           <p>{module.description}</p>
@@ -157,14 +152,28 @@ const CourseComparison = () => {
                             ))}
                           </ul>
                         </div>
+                        
+                        {moduleSuggestions.length > 0 && (
+                          <div className="mt-4 space-y-2">
+                            <p className="text-sm font-medium text-slate-500">Applied improvements:</p>
+                            <div className="space-y-2">
+                              {moduleSuggestions.map(suggestion => (
+                                <div key={suggestion.id} className="text-sm bg-white p-2 rounded border border-green-200">
+                                  <span className="font-medium">{suggestion.title}</span>
+                                  <p className="text-slate-600 mt-1">{suggestion.description}</p>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    );
-                  })}
-                </CardContent>
-              </Card>
-            </>
-          )}
-        </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </ScrollArea>
+          </CardContent>
+        </Card>
       </div>
 
       {selectedSuggestions.length === 0 && (
