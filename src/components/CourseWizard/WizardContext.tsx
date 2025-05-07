@@ -906,6 +906,7 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
     setActivePreviewId(id);
   };
 
+  // Modified applySuggestion function to also mark the suggestion as selected
   const applySuggestion = (id: string) => {
     // Find the suggestion
     const suggestion = suggestions.find(s => s.id === id);
@@ -1056,8 +1057,14 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         break;
     }
     
-    // Mark suggestion as applied
+    // Mark suggestion as applied AND selected
     setAppliedSuggestions([...appliedSuggestions, id]);
+    
+    // Update the selected status in the suggestions array
+    setSuggestions(suggestions.map(s => 
+      s.id === id ? { ...s, selected: true } : s
+    ));
+    
     setCourseStructure(updatedStructure);
     setActivePreviewId(null);
   };
@@ -1070,6 +1077,11 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
     
     // Remove from applied suggestions
     setAppliedSuggestions(appliedSuggestions.filter(suggestionId => suggestionId !== id));
+    
+    // Update the selected status in the suggestions array
+    setSuggestions(suggestions.map(s => 
+      s.id === id ? { ...s, selected: false } : s
+    ));
     
     // Reset active preview
     setActivePreviewId(null);
