@@ -7,10 +7,16 @@ import CourseList from "@/components/CourseList";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import CourseWizard from "@/components/CourseWizard/CourseWizard";
+import { cn } from "@/lib/utils";
 
 const Index = () => {
   const [isNewCourseDialogOpen, setIsNewCourseDialogOpen] = useState(false);
   const [isWizardDialogOpen, setIsWizardDialogOpen] = useState(false);
+  const [isWizardFullscreen, setIsWizardFullscreen] = useState(false);
+
+  const toggleWizardFullscreen = () => {
+    setIsWizardFullscreen(prev => !prev);
+  };
 
   return (
     <Layout>
@@ -126,8 +132,14 @@ const Index = () => {
           onOpenChange={setIsWizardDialogOpen} 
           modal={true}
         >
-          <DialogContent className="sm:max-w-5xl">
-            <CourseWizard />
+          <DialogContent 
+            className={cn("sm:max-w-5xl transition-all duration-300", 
+              isWizardFullscreen ? "p-4" : "p-6"
+            )}
+            isFullscreen={isWizardFullscreen}
+            onToggleFullscreen={toggleWizardFullscreen}
+          >
+            <CourseWizard isFullscreen={isWizardFullscreen} />
           </DialogContent>
         </Dialog>
       </div>

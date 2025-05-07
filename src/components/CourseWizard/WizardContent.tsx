@@ -8,8 +8,13 @@ import CourseComparison from "./steps/CourseComparison";
 import CourseFinalization from "./steps/CourseFinalization";
 import WizardNavigation from "./WizardNavigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 
-const WizardContent = () => {
+interface WizardContentProps {
+  isFullscreen?: boolean;
+}
+
+const WizardContent: React.FC<WizardContentProps> = ({ isFullscreen = false }) => {
   const { currentStep, selectedCourse } = useWizard();
 
   const renderStep = () => {
@@ -29,15 +34,24 @@ const WizardContent = () => {
     }
   };
 
-  // Adjust height for AISuggestions step to give more space for the enhanced cards
+  // Adjust height for different steps and fullscreen mode
   const getScrollAreaHeight = () => {
+    // In fullscreen mode, provide more space
+    if (isFullscreen) {
+      return currentStep === 3 ? "h-[calc(100vh-140px)]" : "h-[calc(100vh-220px)]";
+    }
+    
+    // Regular mode heights
     return currentStep === 3 ? "h-[calc(100vh-180px)]" : "h-[calc(100vh-260px)]";
   };
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="bg-white border rounded-lg p-4">
-        <ScrollArea className={`${getScrollAreaHeight()} pr-4`}>
+      <div className={cn(
+        "bg-white border rounded-lg",
+        isFullscreen ? "p-5" : "p-4"
+      )}>
+        <ScrollArea className={`${getScrollAreaHeight()} pr-4 transition-all duration-300`}>
           {renderStep()}
         </ScrollArea>
       </div>
