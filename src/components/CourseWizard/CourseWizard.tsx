@@ -14,9 +14,11 @@ const CourseWizard: React.FC<CourseWizardProps> = ({ isFullscreen = false }) => 
     <WizardProvider>
       <div className={cn(
         "flex flex-col gap-6 w-full mx-auto transition-all duration-300",
-        isFullscreen ? "max-w-[1400px]" : "max-w-4xl"
+        isFullscreen 
+          ? "max-w-[1400px] px-4 md:px-6 lg:px-8" 
+          : "max-w-4xl"
       )}>
-        <WizardSteps />
+        <WizardSteps isFullscreen={isFullscreen} />
         <WizardContent isFullscreen={isFullscreen} />
       </div>
     </WizardProvider>

@@ -2,8 +2,13 @@
 import React from "react";
 import { useWizard } from "./WizardContext";
 import { Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const WizardSteps = () => {
+interface WizardStepsProps {
+  isFullscreen?: boolean;
+}
+
+const WizardSteps: React.FC<WizardStepsProps> = ({ isFullscreen = false }) => {
   const { currentStep, totalSteps, goToStep, selectedCourse } = useWizard();
 
   const steps = [
@@ -15,8 +20,14 @@ const WizardSteps = () => {
   ];
 
   return (
-    <div className="w-full">
-      <div className="flex items-center justify-between">
+    <div className={cn(
+      "w-full",
+      isFullscreen ? "py-4" : "py-2"
+    )}>
+      <div className={cn(
+        "flex items-center justify-between",
+        isFullscreen ? "px-4 md:px-6" : "px-0"
+      )}>
         {steps.map((step, index) => (
           <React.Fragment key={step.id}>
             <div className="flex flex-col items-center">
@@ -38,9 +49,11 @@ const WizardSteps = () => {
                 )}
               </div>
               <span 
-                className={`text-xs mt-2 ${
-                  currentStep >= step.id ? "text-primary font-medium" : "text-gray-500"
-                }`}
+                className={cn(
+                  "text-xs mt-2",
+                  currentStep >= step.id ? "text-primary font-medium" : "text-gray-500",
+                  isFullscreen && "sm:text-sm"
+                )}
               >
                 {step.label}
               </span>
@@ -48,9 +61,11 @@ const WizardSteps = () => {
             
             {index < steps.length - 1 && (
               <div 
-                className={`flex-1 h-0.5 ${
-                  currentStep > index + 1 ? "bg-primary" : "bg-gray-200"
-                }`}
+                className={cn(
+                  "flex-1 h-0.5",
+                  currentStep > index + 1 ? "bg-primary" : "bg-gray-200",
+                  isFullscreen && "mx-2"
+                )}
               />
             )}
           </React.Fragment>

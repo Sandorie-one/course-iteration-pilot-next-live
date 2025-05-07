@@ -38,7 +38,7 @@ const WizardContent: React.FC<WizardContentProps> = ({ isFullscreen = false }) =
   const getScrollAreaHeight = () => {
     // In fullscreen mode, provide more space
     if (isFullscreen) {
-      return currentStep === 3 ? "h-[calc(100vh-140px)]" : "h-[calc(100vh-220px)]";
+      return currentStep === 3 ? "h-[calc(100vh-180px)]" : "h-[calc(100vh-250px)]";
     }
     
     // Regular mode heights
@@ -46,16 +46,25 @@ const WizardContent: React.FC<WizardContentProps> = ({ isFullscreen = false }) =
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className={cn(
+      "flex flex-col gap-4",
+      isFullscreen && "px-4 md:px-6"
+    )}>
       <div className={cn(
         "bg-white border rounded-lg",
-        isFullscreen ? "p-5" : "p-4"
+        isFullscreen ? "p-6" : "p-4"
       )}>
-        <ScrollArea className={`${getScrollAreaHeight()} pr-4 transition-all duration-300`}>
-          {renderStep()}
+        <ScrollArea className={cn(
+          getScrollAreaHeight(),
+          "px-1 transition-all duration-300",
+          isFullscreen ? "pr-6" : "pr-4"
+        )}>
+          <div className={isFullscreen ? "px-2" : ""}>
+            {renderStep()}
+          </div>
         </ScrollArea>
       </div>
-      <WizardNavigation />
+      <WizardNavigation isFullscreen={isFullscreen} />
     </div>
   );
 };

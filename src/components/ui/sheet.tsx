@@ -1,4 +1,3 @@
-
 import * as SheetPrimitive from "@radix-ui/react-dialog"
 import { cva, type VariantProps } from "class-variance-authority"
 import { X, Maximize, Minimize } from "lucide-react"
@@ -65,7 +64,7 @@ const SheetContent = React.forwardRef<
       ref={ref}
       className={cn(
         sheetVariants({ side }), 
-        isFullscreen ? "!inset-0 !max-w-full !w-screen !h-screen !rounded-none" : "",
+        isFullscreen ? "!inset-0 !max-w-full !w-screen !h-screen !rounded-none p-6" : "",
         className
       )}
       {...props}

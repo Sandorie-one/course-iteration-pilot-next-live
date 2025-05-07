@@ -1,4 +1,3 @@
-
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, File, Copy, ArrowRight } from "lucide-react";
@@ -133,8 +132,9 @@ const Index = () => {
           modal={true}
         >
           <DialogContent 
-            className={cn("sm:max-w-5xl transition-all duration-300", 
-              isWizardFullscreen ? "p-4" : "p-6"
+            className={cn(
+              "transition-all duration-300", 
+              isWizardFullscreen ? "p-6" : "sm:max-w-5xl p-6"
             )}
             isFullscreen={isWizardFullscreen}
             onToggleFullscreen={toggleWizardFullscreen}

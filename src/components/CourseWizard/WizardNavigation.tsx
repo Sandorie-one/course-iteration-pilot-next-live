@@ -3,8 +3,13 @@ import React from "react";
 import { useWizard } from "./WizardContext";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const WizardNavigation = () => {
+interface WizardNavigationProps {
+  isFullscreen?: boolean;
+}
+
+const WizardNavigation: React.FC<WizardNavigationProps> = ({ isFullscreen = false }) => {
   const { 
     currentStep, 
     totalSteps, 
@@ -18,7 +23,10 @@ const WizardNavigation = () => {
   const hasSelectedCourse = !!selectedCourse;
 
   return (
-    <div className="flex justify-between mt-4">
+    <div className={cn(
+      "flex justify-between",
+      isFullscreen ? "mt-6" : "mt-4"
+    )}>
       <Button
         variant="outline"
         onClick={prevStep}
