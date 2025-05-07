@@ -119,10 +119,11 @@ interface WizardContextType {
   selectCourse: (course: Course) => void;
   updateSuggestion: (id: string, selected: boolean) => void;
   coursesList: Course[];
-  // New properties for course structure
+  // Course structure properties
   courseStructure: CourseWeek[];
   previewSuggestion: (id: string | null) => void;
   applySuggestion: (id: string) => void;
+  removeSuggestion: (id: string) => void; // New function
   activePreviewId: string | null;
   appliedSuggestions: string[];
 }
@@ -145,6 +146,7 @@ const defaultContext: WizardContextType = {
   courseStructure: [],
   previewSuggestion: () => {},
   applySuggestion: () => {},
+  removeSuggestion: () => {}, // New function
   activePreviewId: null,
   appliedSuggestions: []
 };
@@ -1060,6 +1062,114 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
     setActivePreviewId(null);
   };
 
+  // New function to remove applied suggestions
+  const removeSuggestion = (id: string) => {
+    // Find the suggestion by id
+    const suggestion = suggestions.find(s => s.id === id);
+    if (!suggestion || !appliedSuggestions.includes(id)) return;
+    
+    // Remove from applied suggestions
+    setAppliedSuggestions(appliedSuggestions.filter(suggestionId => suggestionId !== id));
+    
+    // Reset active preview
+    setActivePreviewId(null);
+    
+    // Revert changes based on the suggestion type
+    let updatedStructure = [...courseStructure];
+    
+    switch (suggestion.id) {
+      case "s1": // Remove added interactive quiz
+        updatedStructure = updatedStructure.map(week => 
+          week.order === 1 ? {
+            ...week,
+            contentTypes: week.contentTypes.map(ct => 
+              ct.id === "quizzes-w1" ? {
+                ...ct,
+                items: ct.items.filter(item => item.id !== "quiz-new-1")
+              } : ct
+            )
+          } : week
+        );
+        break;
+        
+      case "s2": // Revert visual examples change
+        updatedStructure = updatedStructure.map(week => 
+          week.order === 2 ? {
+            ...week,
+            contentTypes: week.contentTypes.map(ct => 
+              ct.id === "lectures-w2" ? {
+                ...ct,
+                items: ct.items.map(item => 
+                  item.id === "lec3" ? {
+                    ...item,
+                    title: "Foundation Principles", // Revert title
+                    isModified: false
+                  } : item
+                )
+              } : ct
+            )
+          } : week
+        );
+        break;
+        
+      case "s3": // Revert content flow restructure
+        updatedStructure = updatedStructure.map(week => 
+          week.order === 3 ? {
+            ...week,
+            contentTypes: week.contentTypes.map(ct => ({
+              ...ct,
+              items: ct.items.map(item => ({
+                ...item,
+                isModified: false
+              }))
+            }))
+          } : week
+        );
+        break;
+        
+      case "s4": // Remove added industry case studies
+        updatedStructure = updatedStructure.map(week => 
+          week.order === 2 ? {
+            ...week,
+            contentTypes: week.contentTypes.map(ct => 
+              ct.id === "readings-w2" ? {
+                ...ct,
+                items: ct.items.filter(item => item.id !== "read-new-1")
+              } : ct
+            )
+          } : week
+        );
+        break;
+        
+      case "s5": // Remove milestone structure for project
+        updatedStructure = updatedStructure.map(week => 
+          week.order === 3 ? {
+            ...week,
+            contentTypes: week.contentTypes.map(ct => 
+              ct.id === "assignments-w3" ? {
+                ...ct,
+                // Restore original structure with single assignment
+                items: [
+                  {
+                    id: "assign3",
+                    title: "Advanced Implementation Project",
+                    description: "Complex project applying advanced concepts",
+                    type: "formative",
+                    isHighlighted: false,
+                    isModified: false,
+                    isNew: false
+                  }
+                ]
+              } : ct
+            )
+          } : week
+        );
+        break;
+    }
+    
+    setCourseStructure(updatedStructure);
+  };
+
   return (
     <WizardContext.Provider
       value={{
@@ -1076,10 +1186,11 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         selectCourse,
         updateSuggestion,
         coursesList,
-        // New values
+        // Course structure values
         courseStructure,
         previewSuggestion,
         applySuggestion,
+        removeSuggestion, // Add new function
         activePreviewId,
         appliedSuggestions
       }}

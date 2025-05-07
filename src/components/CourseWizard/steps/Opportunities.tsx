@@ -6,7 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { 
   Eye, Check, ChevronDown, ChevronUp, Clock, AlertTriangle, Lightbulb, 
-  ArrowRight, ArrowUp, Users, GraduationCap, Star, FileCheck, FileText, Book
+  ArrowRight, ArrowUp, Users, GraduationCap, Star, FileCheck, FileText, Book, 
+  X, Trash2
 } from "lucide-react";
 import { 
   Accordion, 
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
 
 const Opportunities = () => {
   const { 
@@ -27,6 +29,7 @@ const Opportunities = () => {
     courseStructure,
     previewSuggestion,
     applySuggestion,
+    removeSuggestion,
     activePreviewId,
     appliedSuggestions,
     performanceData
@@ -132,6 +135,12 @@ const Opportunities = () => {
 
   const isSuggestionPreviewing = (id: string) => {
     return activePreviewId === id;
+  };
+
+  // Handle removing a suggestion
+  const handleRemoveSuggestion = (id: string) => {
+    removeSuggestion(id);
+    toast.success("Suggestion removed successfully");
   };
 
   // Group suggestions by module
@@ -289,22 +298,35 @@ const Opportunities = () => {
                                   <Button 
                                     size="sm" 
                                     className="gap-1"
-                                    onClick={() => applySuggestion(suggestion.id)}
+                                    onClick={() => {
+                                      applySuggestion(suggestion.id);
+                                      toast.success("Suggestion applied to course structure");
+                                    }}
                                   >
                                     <Check className="h-3 w-3" />
                                     Apply
                                   </Button>
                                 </>
                               ) : (
-                                <Button 
-                                  size="sm" 
-                                  variant="ghost"
-                                  className="text-green-700 bg-green-50 gap-1"
-                                  disabled
-                                >
-                                  <Check className="h-3 w-3" />
-                                  Applied
-                                </Button>
+                                <>
+                                  <Button 
+                                    size="sm" 
+                                    variant="ghost"
+                                    className="text-green-700 bg-green-50 gap-1"
+                                  >
+                                    <Check className="h-3 w-3" />
+                                    Applied
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="gap-1 text-red-600 hover:bg-red-50"
+                                    onClick={() => handleRemoveSuggestion(suggestion.id)}
+                                  >
+                                    <Trash2 className="h-3 w-3" />
+                                    Remove
+                                  </Button>
+                                </>
                               )}
                             </div>
                           </CollapsibleContent>
@@ -362,13 +384,18 @@ const Opportunities = () => {
                             className={`text-sm p-2 rounded-md flex items-center ${
                               item.isHighlighted ? 'bg-blue-100 text-blue-800' : 
                               item.isModified ? 'bg-green-100 text-green-800' : ''
-                            }`}
+                            } ${item.isNew ? 'animate-pulse' : ''}`}
                           >
                             {getContentTypeIcon(item.type)}
                             <span className="flex-1">{item.title}</span>
                             {item.isNew && (
                               <Badge className="ml-2 bg-green-100 text-green-800 border-green-200">
                                 New
+                              </Badge>
+                            )}
+                            {item.isModified && !item.isNew && (
+                              <Badge className="ml-2 bg-amber-100 text-amber-800 border-amber-200">
+                                Modified
                               </Badge>
                             )}
                           </li>
