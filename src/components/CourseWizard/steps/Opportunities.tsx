@@ -18,6 +18,13 @@ import {
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 const Opportunities = () => {
   const { 
@@ -36,6 +43,7 @@ const Opportunities = () => {
   } = useWizard();
 
   const [expandedSuggestions, setExpandedSuggestions] = useState<Record<string, boolean>>({});
+  const [showMilestonesDialog, setShowMilestonesDialog] = useState(false);
 
   if (isLoading) {
     return <div className="flex justify-center py-8">Loading improvement opportunities...</div>;
@@ -142,6 +150,14 @@ const Opportunities = () => {
     removeSuggestion(id);
     toast.success("Suggestion removed successfully");
   };
+  
+  // Handle previewing a suggestion, show dialog for milestones if it's the final project suggestion
+  const handlePreviewSuggestion = (id: string | null) => {
+    if (id === "s5") {
+      setShowMilestonesDialog(true);
+    }
+    previewSuggestion(id);
+  };
 
   // Group suggestions by module
   const groupedSuggestions: Record<string, typeof suggestions> = {};
@@ -183,6 +199,40 @@ const Opportunities = () => {
       return 'Resource';
     }
   };
+
+  // Mock data for project milestones
+  const projectMilestones = [
+    {
+      title: "Project Proposal",
+      description: "Students submit a 1-2 page proposal outlining their project goals, methodology, and expected outcomes.",
+      deadline: "Week 2",
+      weight: "10%"
+    },
+    {
+      title: "Initial Requirements Document",
+      description: "A detailed specification of what the project will accomplish, including functional requirements, constraints, and success criteria.",
+      deadline: "Week 4",
+      weight: "15%"
+    },
+    {
+      title: "Design Review",
+      description: "Presentation of initial design documents for peer and instructor review and feedback.",
+      deadline: "Week 6",
+      weight: "20%"
+    },
+    {
+      title: "Implementation Progress Report",
+      description: "Mid-point progress update showing working portions of the project and addressing any challenges encountered.",
+      deadline: "Week 8",
+      weight: "25%"
+    },
+    {
+      title: "Final Project Submission",
+      description: "Complete project deliverable with all required documentation, source code, and user guides.",
+      deadline: "Week 10",
+      weight: "30%"
+    }
+  ];
 
   return (
     <div className="flex flex-col md:flex-row gap-4 pb-2 h-full">
@@ -272,15 +322,6 @@ const Opportunities = () => {
                                 <h5 className="text-sm font-medium text-slate-700 mb-1">Based On</h5>
                                 <p className="text-sm text-slate-600">{suggestion.sourceData}</p>
                               </div>
-                              
-                              <div className="pt-1">
-                                <div className="flex items-center gap-1">
-                                  <Clock className="h-4 w-4 text-slate-400" />
-                                  <span className="text-sm text-slate-500">
-                                    Est. {suggestion.timeToImplement} {suggestion.timeToImplement === 1 ? 'hour' : 'hours'} to implement
-                                  </span>
-                                </div>
-                              </div>
                             </div>
                             
                             <div className="flex gap-2 pt-2">
@@ -290,7 +331,7 @@ const Opportunities = () => {
                                     size="sm" 
                                     variant="outline" 
                                     className={`gap-1 ${isPreviewing ? 'bg-blue-100 text-blue-800' : ''}`}
-                                    onClick={() => previewSuggestion(isPreviewing ? null : suggestion.id)}
+                                    onClick={() => handlePreviewSuggestion(isPreviewing ? null : suggestion.id)}
                                   >
                                     <Eye className="h-3 w-3" />
                                     {isPreviewing ? 'Exit Preview' : 'Preview'}
@@ -409,8 +450,68 @@ const Opportunities = () => {
           ))}
         </Accordion>
       </div>
+
+      {/* Project Milestones Dialog */}
+      <Dialog open={showMilestonesDialog} onOpenChange={setShowMilestonesDialog}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>Project Milestone Structure Preview</DialogTitle>
+            <DialogDescription>
+              A structured approach to the final project with clear milestones helps students manage their time and delivers better project outcomes.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6 my-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-blue-800">
+              <p className="text-sm">
+                <strong>Why milestones matter:</strong> Research shows that projects with structured checkpoints result in 35% higher completion rates and 28% better quality outcomes compared to single-deadline projects.
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-medium mb-3">Proposed Milestone Structure</h3>
+              <div className="space-y-4">
+                {projectMilestones.map((milestone, index) => (
+                  <div key={index} className="border rounded-lg p-4">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-medium">{milestone.title}</h4>
+                        <p className="text-sm text-slate-600 mt-1">{milestone.description}</p>
+                      </div>
+                      <div className="flex flex-col items-end">
+                        <Badge className="mb-1">{milestone.deadline}</Badge>
+                        <span className="text-sm font-medium text-slate-700">{milestone.weight}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <h4 className="font-medium text-green-800 mb-1">Expected Benefits</h4>
+              <ul className="text-sm space-y-1 text-slate-700">
+                <li>• Better time management for students</li>
+                <li>• Earlier identification of project issues</li>
+                <li>• More opportunities for meaningful feedback</li>
+                <li>• Higher quality final deliverables</li>
+                <li>• More equitable distribution of work in team projects</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="flex justify-end">
+            <Button 
+              onClick={() => setShowMilestonesDialog(false)}
+            >
+              Close Preview
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
 
 export default Opportunities;
+
