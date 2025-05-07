@@ -1,4 +1,3 @@
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Info } from "lucide-react";
@@ -174,8 +173,6 @@ const CourseList = () => {
                         side="right"
                         align="start"
                         sideOffset={10}
-                        openDelay={100}
-                        closeDelay={300}
                       >
                         <div>
                           <h4 className="font-semibold mb-2">{getImpactDescription(course.impact).title}</h4>
