@@ -29,21 +29,6 @@ type Suggestion = {
   selected: boolean;
 };
 
-type LearningObjective = {
-  id: string;
-  name: string;
-  description: string;
-  moduleId: string;
-  mastery: number;
-  target: number;
-  students: {
-    excellent: number; // percentage of students with 90%+ mastery
-    proficient: number; // percentage of students with 70-89% mastery
-    developing: number; // percentage of students with 50-69% mastery
-    struggling: number; // percentage of students with <50% mastery
-  }
-};
-
 type PerformanceData = {
   strengths: string[];
   weaknesses: string[];
@@ -66,7 +51,6 @@ type PerformanceData = {
     create: number;
     balanceScore: number;
   };
-  learningObjectives: LearningObjective[];
   opportunityCount: number;
   courseHealthScore: number;
 };
@@ -247,80 +231,6 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         }
       ];
       
-      // Mock learning objectives
-      const learningObjectives = [
-        {
-          id: "lo1",
-          name: "Define basic programming concepts",
-          description: "Ability to define and explain fundamental programming concepts",
-          moduleId: "m1",
-          mastery: 82,
-          target: 85,
-          students: {
-            excellent: 35,
-            proficient: 45,
-            developing: 15,
-            struggling: 5
-          }
-        },
-        {
-          id: "lo2",
-          name: "Apply control structures",
-          description: "Ability to use loops, conditionals and other control structures",
-          moduleId: "m2",
-          mastery: 75,
-          target: 80,
-          students: {
-            excellent: 25,
-            proficient: 40,
-            developing: 25,
-            struggling: 10
-          }
-        },
-        {
-          id: "lo3",
-          name: "Implement data structures",
-          description: "Ability to implement and use common data structures",
-          moduleId: "m3",
-          mastery: 68,
-          target: 75,
-          students: {
-            excellent: 20,
-            proficient: 35,
-            developing: 30,
-            struggling: 15
-          }
-        },
-        {
-          id: "lo4",
-          name: "Create algorithms",
-          description: "Ability to design and implement algorithms to solve problems",
-          moduleId: "m4",
-          mastery: 62,
-          target: 75,
-          students: {
-            excellent: 15,
-            proficient: 30,
-            developing: 35,
-            struggling: 20
-          }
-        },
-        {
-          id: "lo5",
-          name: "Build applications",
-          description: "Ability to develop complete applications using learned concepts",
-          moduleId: "m5",
-          mastery: 70,
-          target: 80,
-          students: {
-            excellent: 22,
-            proficient: 38,
-            developing: 25,
-            struggling: 15
-          }
-        }
-      ];
-      
       // Mock performance data
       const mockPerformanceData = {
         strengths: [
@@ -361,7 +271,6 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
           create: 2,
           balanceScore: 62
         },
-        learningObjectives: learningObjectives,
         opportunityCount: 5,
         courseHealthScore: 71
       };
