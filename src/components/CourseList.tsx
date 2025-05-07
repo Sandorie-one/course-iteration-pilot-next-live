@@ -149,14 +149,19 @@ const CourseList = () => {
                   </td>
                   <td className="px-3 py-4 whitespace-nowrap">
                     {course.improvements > 0 && (
-                      <HoverCard>
+                      <HoverCard openDelay={100} closeDelay={300}>
                         <HoverCardTrigger asChild>
                           <div className="flex items-center cursor-help">
                             {badge}
                             <Info size={16} className="ml-2 text-slate-400" />
                           </div>
                         </HoverCardTrigger>
-                        <HoverCardContent className="w-80">
+                        <HoverCardContent 
+                          side="right" 
+                          align="start" 
+                          sideOffset={10}
+                          className="w-80"
+                        >
                           <div className="space-y-2">
                             <h4 className="font-medium">{course.impactLevel.charAt(0).toUpperCase() + course.impactLevel.slice(1)} Impact Level</h4>
                             <p className="text-sm text-slate-500">{description}</p>
