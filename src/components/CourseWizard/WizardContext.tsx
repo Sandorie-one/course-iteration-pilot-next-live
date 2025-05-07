@@ -42,6 +42,17 @@ type PerformanceData = {
     score: number;
     previousScore?: number;
   }[];
+  bloomsTaxonomy: {
+    remember: number;
+    understand: number;
+    apply: number;
+    analyze: number;
+    evaluate: number;
+    create: number;
+    balanceScore: number;
+  };
+  opportunityCount: number;
+  courseHealthScore: number;
 };
 
 interface WizardContextType {
@@ -250,7 +261,18 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
           { moduleId: "m3", name: "Advanced Topics", score: 62, previousScore: 68 },
           { moduleId: "m4", name: "Practical Applications", score: 71, previousScore: 69 },
           { moduleId: "m5", name: "Final Project", score: 65, previousScore: 72 }
-        ]
+        ],
+        bloomsTaxonomy: {
+          remember: 45,
+          understand: 30,
+          apply: 15,
+          analyze: 5,
+          evaluate: 3,
+          create: 2,
+          balanceScore: 62
+        },
+        opportunityCount: 5,
+        courseHealthScore: 71
       };
 
       setCourseModules(modules);
