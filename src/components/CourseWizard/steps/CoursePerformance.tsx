@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BloomsTaxonomyChart from "../BloomsTaxonomyChart";
-import PerformanceChart from "@/components/PerformanceChart";
+import LearningObjectiveChart from "../LearningObjectiveChart";
 import PerformanceSummary from "../PerformanceSummary";
 
 const CoursePerformance = () => {
@@ -46,11 +46,15 @@ const CoursePerformance = () => {
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Module Performance</CardTitle>
-                <CardDescription>Student performance across course modules</CardDescription>
+                <CardTitle>Learning Objective Mastery</CardTitle>
+                <CardDescription>Student achievement on learning objectives</CardDescription>
               </CardHeader>
               <CardContent>
-                <PerformanceChart />
+                <LearningObjectiveChart />
+                <div className="text-sm text-muted-foreground mt-4">
+                  <p>This chart shows the distribution of student achievement across learning objectives. 
+                  Each bar represents the percentage of students at different mastery levels for a specific learning objective.</p>
+                </div>
               </CardContent>
             </Card>
 
