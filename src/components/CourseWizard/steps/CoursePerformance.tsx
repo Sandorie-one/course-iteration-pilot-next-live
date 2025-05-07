@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useWizard } from "../WizardContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -69,9 +68,9 @@ const CoursePerformance = () => {
         
         <TabsContent value="overview">
           <div className="space-y-6">
-            {/* Enhanced Strengths & Improvement Areas */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Strengths Card - Enhanced */}
+            {/* MODIFIED: Stacked Strengths & Improvement Areas instead of side-by-side */}
+            <div className="space-y-6">
+              {/* Strengths Card - Modified */}
               <Card className="shadow-sm hover:shadow-md transition-shadow overflow-hidden border-green-200">
                 <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-6 py-4 border-b border-green-100">
                   <div className="flex justify-between items-center">
@@ -93,30 +92,12 @@ const CoursePerformance = () => {
                 <CardContent className="p-0">
                   <ul className="divide-y">
                     {performanceData.strengths.map((strength, index) => {
-                      // Example data - in real implementation, this would come from the API
-                      const metrics = [
-                        { label: "Student Rating", value: "4.8/5", trend: "up" },
-                        { label: "Engagement", value: "92%", trend: "up" },
-                        { label: "Pass Rate", value: "95%", trend: "neutral" },
-                      ][index % 3];
-                      
                       return (
                         <li 
                           key={index} 
                           className="p-4 hover:bg-slate-50 transition-colors"
                         >
-                          <div className="flex justify-between items-start mb-2">
-                            <div className="font-medium">{strength}</div>
-                          </div>
-                          <div className="flex items-center gap-3 mt-2">
-                            <div className="bg-green-50 text-green-700 text-xs font-medium px-2 py-1 rounded-md flex items-center gap-1">
-                              {metrics.label}: {metrics.value}
-                              {getTrendIcon(metrics.trend as "up" | "down" | "neutral")}
-                            </div>
-                            <Badge variant="outline" className="bg-blue-50 text-blue-600 border-blue-100">
-                              Module {index + 1}
-                            </Badge>
-                          </div>
+                          <div className="font-medium">{strength}</div>
                         </li>
                       );
                     })}
@@ -124,7 +105,7 @@ const CoursePerformance = () => {
                 </CardContent>
               </Card>
               
-              {/* Improvement Areas Card - Enhanced */}
+              {/* Improvement Areas Card - Modified */}
               <Card className="shadow-sm hover:shadow-md transition-shadow overflow-hidden border-amber-200">
                 <div className="bg-gradient-to-r from-amber-50 to-orange-50 px-6 py-4 border-b border-amber-100">
                   <div className="flex justify-between items-center">
@@ -146,37 +127,23 @@ const CoursePerformance = () => {
                 <CardContent className="p-0">
                   <ul className="divide-y">
                     {performanceData.weaknesses.map((weakness, index) => {
-                      // Example priority and impact data - would come from API in real implementation
+                      // Example priority data - would come from API in real implementation
                       const priority = ["High", "Medium", "Low"][index % 3];
                       const priorityColor = 
                         priority === "High" ? "bg-red-50 text-red-700 border-red-100" :
                         priority === "Medium" ? "bg-amber-50 text-amber-700 border-amber-100" :
                         "bg-blue-50 text-blue-700 border-blue-100";
                       
-                      const impact = ["Pass Rate +15%", "Engagement +25%", "Completion +10%"][index % 3];
-                      
                       return (
                         <li 
                           key={index} 
                           className="p-4 hover:bg-slate-50 transition-colors"
                         >
-                          <div className="flex justify-between items-start mb-2">
+                          <div className="flex justify-between items-start">
                             <div className="font-medium">{weakness}</div>
                             <Badge className={priorityColor}>
                               {priority} Priority
                             </Badge>
-                          </div>
-                          
-                          <div className="text-sm text-slate-600 mt-1">
-                            <div className="flex items-center gap-3 mt-2">
-                              <div className="bg-green-50 text-green-700 text-xs font-medium px-2 py-1 rounded-md flex items-center gap-1">
-                                <TrendingUp className="h-3 w-3 mr-1" />
-                                Potential Impact: {impact}
-                              </div>
-                              <Badge variant="outline" className="bg-purple-50 text-purple-600 border-purple-100">
-                                Module {index + 2}
-                              </Badge>
-                            </div>
                           </div>
                         </li>
                       );
@@ -233,8 +200,6 @@ const CoursePerformance = () => {
                             <p className="text-sm">{feedback}</p>
                             <div className="mt-2 flex items-center text-xs text-purple-700">
                               <span className="font-medium">Mentioned by 18% of students</span>
-                              <ChevronRight className="h-3 w-3 mx-1" />
-                              <span className="bg-purple-100 px-1.5 py-0.5 rounded">Actionable</span>
                             </div>
                           </div>
                         </div>
