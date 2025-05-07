@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useWizard } from "../WizardContext";
 import { Card, CardContent } from "@/components/ui/card";
@@ -25,6 +24,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const Opportunities = () => {
   const { 
@@ -453,54 +453,56 @@ const Opportunities = () => {
 
       {/* Project Milestones Dialog */}
       <Dialog open={showMilestonesDialog} onOpenChange={setShowMilestonesDialog}>
-        <DialogContent className="max-w-3xl">
-          <DialogHeader>
+        <DialogContent className="max-w-3xl max-h-[85vh] overflow-hidden flex flex-col">
+          <DialogHeader className="pb-2">
             <DialogTitle>Project Milestone Structure Preview</DialogTitle>
             <DialogDescription>
               A structured approach to the final project with clear milestones helps students manage their time and delivers better project outcomes.
             </DialogDescription>
           </DialogHeader>
           
-          <div className="space-y-6 my-4">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-blue-800">
-              <p className="text-sm">
-                <strong>Why milestones matter:</strong> Research shows that projects with structured checkpoints result in 35% higher completion rates and 28% better quality outcomes compared to single-deadline projects.
-              </p>
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-medium mb-3">Proposed Milestone Structure</h3>
-              <div className="space-y-4">
-                {projectMilestones.map((milestone, index) => (
-                  <div key={index} className="border rounded-lg p-4">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h4 className="font-medium">{milestone.title}</h4>
-                        <p className="text-sm text-slate-600 mt-1">{milestone.description}</p>
-                      </div>
-                      <div className="flex flex-col items-end">
-                        <Badge className="mb-1">{milestone.deadline}</Badge>
-                        <span className="text-sm font-medium text-slate-700">{milestone.weight}</span>
+          <ScrollArea className="flex-1">
+            <div className="space-y-4 my-3 px-1">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-blue-800">
+                <p className="text-sm">
+                  <strong>Why milestones matter:</strong> Research shows that projects with structured checkpoints result in 35% higher completion rates and 28% better quality outcomes compared to single-deadline projects.
+                </p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-medium mb-2">Proposed Milestone Structure</h3>
+                <div className="space-y-3">
+                  {projectMilestones.map((milestone, index) => (
+                    <div key={index} className="border rounded-lg p-3">
+                      <div className="flex justify-between items-start gap-2">
+                        <div>
+                          <h4 className="font-medium">{milestone.title}</h4>
+                          <p className="text-sm text-slate-600 mt-1">{milestone.description}</p>
+                        </div>
+                        <div className="flex flex-col items-end shrink-0">
+                          <Badge className="mb-1">{milestone.deadline}</Badge>
+                          <span className="text-sm font-medium text-slate-700">{milestone.weight}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+              </div>
+              
+              <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                <h4 className="font-medium text-green-800 mb-1">Expected Benefits</h4>
+                <ul className="text-sm space-y-1 text-slate-700">
+                  <li>• Better time management for students</li>
+                  <li>• Earlier identification of project issues</li>
+                  <li>• More opportunities for meaningful feedback</li>
+                  <li>• Higher quality final deliverables</li>
+                  <li>• More equitable distribution of work in team projects</li>
+                </ul>
               </div>
             </div>
-            
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <h4 className="font-medium text-green-800 mb-1">Expected Benefits</h4>
-              <ul className="text-sm space-y-1 text-slate-700">
-                <li>• Better time management for students</li>
-                <li>• Earlier identification of project issues</li>
-                <li>• More opportunities for meaningful feedback</li>
-                <li>• Higher quality final deliverables</li>
-                <li>• More equitable distribution of work in team projects</li>
-              </ul>
-            </div>
-          </div>
+          </ScrollArea>
           
-          <div className="flex justify-end">
+          <div className="flex justify-end pt-4 border-t mt-2">
             <Button 
               onClick={() => setShowMilestonesDialog(false)}
             >
@@ -514,4 +516,3 @@ const Opportunities = () => {
 };
 
 export default Opportunities;
-
