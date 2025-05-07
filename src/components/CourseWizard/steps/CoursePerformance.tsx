@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle, AlertTriangle, X, Clock, Activity, TrendingUp, TrendingDown } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
+import PerformanceSummary from "@/components/CourseWizard/PerformanceSummary";
 
 // Helper function to get color based on performance
 const getPerformanceColor = (value: number): string => {
@@ -42,6 +43,9 @@ const CoursePerformance = () => {
     return <div className="text-center py-6">Please select a course first</div>;
   }
 
+  // Calculate the number of improvement opportunities from weaknesses
+  const opportunityCount = performanceData.weaknesses ? performanceData.weaknesses.length : 0;
+
   return (
     <div className="space-y-4">
       <div className="mb-3">
@@ -51,6 +55,9 @@ const CoursePerformance = () => {
           areas for improvement in your new course.
         </p>
       </div>
+      
+      {/* Performance Summary Card */}
+      <PerformanceSummary opportunityCount={opportunityCount} />
 
       <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="mb-3">
