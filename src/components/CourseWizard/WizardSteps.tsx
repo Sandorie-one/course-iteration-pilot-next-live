@@ -15,17 +15,17 @@ const WizardSteps = () => {
   ];
 
   return (
-    <div className="w-full bg-white border rounded-lg p-6 my-4 shadow-sm">
+    <div className="w-full">
       <div className="flex items-center justify-between">
         {steps.map((step, index) => (
           <React.Fragment key={step.id}>
             <div className="flex flex-col items-center">
               <div 
-                className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all ${
+                className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
                   currentStep > step.id 
-                    ? "bg-primary border-primary text-primary-foreground shadow-sm" 
+                    ? "bg-primary border-primary text-primary-foreground" 
                     : currentStep === step.id 
-                    ? "border-primary text-primary shadow-sm" 
+                    ? "border-primary text-primary" 
                     : "border-gray-300 text-gray-300"
                 }`}
                 onClick={() => selectedCourse && step.id < currentStep && goToStep(step.id)}
@@ -38,7 +38,7 @@ const WizardSteps = () => {
                 )}
               </div>
               <span 
-                className={`text-xs mt-3 ${
+                className={`text-xs mt-2 ${
                   currentStep >= step.id ? "text-primary font-medium" : "text-gray-500"
                 }`}
               >
@@ -48,7 +48,7 @@ const WizardSteps = () => {
             
             {index < steps.length - 1 && (
               <div 
-                className={`flex-1 h-1 mx-2 rounded ${
+                className={`flex-1 h-0.5 ${
                   currentStep > index + 1 ? "bg-primary" : "bg-gray-200"
                 }`}
               />
