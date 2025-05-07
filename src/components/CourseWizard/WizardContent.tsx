@@ -7,6 +7,7 @@ import AISuggestions from "./steps/AISuggestions";
 import CourseComparison from "./steps/CourseComparison";
 import CourseFinalization from "./steps/CourseFinalization";
 import WizardNavigation from "./WizardNavigation";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const WizardContent = () => {
   const { currentStep, selectedCourse } = useWizard();
@@ -31,7 +32,9 @@ const WizardContent = () => {
   return (
     <div className="flex flex-col gap-6">
       <div className="bg-white border rounded-lg p-6 overflow-hidden">
-        {renderStep()}
+        <ScrollArea className="h-[calc(100vh-250px)] pr-4">
+          {renderStep()}
+        </ScrollArea>
       </div>
       <WizardNavigation />
     </div>

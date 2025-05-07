@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useWizard } from "../WizardContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -59,7 +58,7 @@ const CourseFinalization = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-2">
       <div className="mb-6">
         <h2 className="text-2xl font-bold mb-2">Customize and Finalize Your Course</h2>
         <p className="text-slate-500">
