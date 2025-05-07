@@ -51,6 +51,23 @@ type PerformanceData = {
     create: number;
     balanceScore: number;
   };
+  studentEngagement: {
+    moduleId: string;
+    moduleName: string;
+    participationRate: number;
+    timeSpent: number;
+    expectedTime: number;
+    completionRate: number;
+  }[];
+  learningChallenges: {
+    id: string;
+    topic: string;
+    moduleId: string;
+    moduleName: string;
+    successRate: number;
+    difficulty: "high" | "medium" | "low";
+    commonMisconception: string;
+  }[];
   opportunityCount: number;
   courseHealthScore: number;
 };
@@ -271,6 +288,20 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
           create: 2,
           balanceScore: 62
         },
+        studentEngagement: [
+          { moduleId: "m1", moduleName: "Introduction", participationRate: 89, timeSpent: 115, expectedTime: 120, completionRate: 94 },
+          { moduleId: "m2", moduleName: "Basic Concepts", participationRate: 82, timeSpent: 160, expectedTime: 180, completionRate: 87 },
+          { moduleId: "m3", moduleName: "Advanced Topics", participationRate: 68, timeSpent: 190, expectedTime: 240, completionRate: 72 },
+          { moduleId: "m4", moduleName: "Practical Applications", participationRate: 76, timeSpent: 155, expectedTime: 180, completionRate: 80 },
+          { moduleId: "m5", moduleName: "Final Project", participationRate: 58, timeSpent: 280, expectedTime: 360, completionRate: 65 }
+        ],
+        learningChallenges: [
+          { id: "lc1", topic: "Object-Oriented Principles", moduleId: "m3", moduleName: "Advanced Topics", successRate: 54, difficulty: "high", commonMisconception: "Confusion between inheritance and composition" },
+          { id: "lc2", topic: "Recursion Concepts", moduleId: "m3", moduleName: "Advanced Topics", successRate: 48, difficulty: "high", commonMisconception: "Difficulty understanding the base case" },
+          { id: "lc3", topic: "API Integration", moduleId: "m4", moduleName: "Practical Applications", successRate: 62, difficulty: "medium", commonMisconception: "Misunderstanding request/response cycles" },
+          { id: "lc4", topic: "Database Relationships", moduleId: "m4", moduleName: "Practical Applications", successRate: 59, difficulty: "medium", commonMisconception: "Confusion with join operations and foreign keys" },
+          { id: "lc5", topic: "Project Architecture", moduleId: "m5", moduleName: "Final Project", successRate: 51, difficulty: "high", commonMisconception: "Difficulty with component separation and organization" }
+        ],
         opportunityCount: 5,
         courseHealthScore: 71
       };
