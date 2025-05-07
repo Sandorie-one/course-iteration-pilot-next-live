@@ -718,9 +718,7 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         weaknesses: [
           "Low quiz scores in modules 3 and 4",
           "Student feedback indicates difficulty understanding advanced topics",
-          "High drop-off rate during final project phase",
-          "Insufficient visual aids for complex theoretical concepts",
-          "Limited real-world application examples in advanced modules"
+          "High drop-off rate during final project phase"
         ],
         studentFeedback: {
           positive: [
