@@ -1,10 +1,9 @@
 
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BarChart2, Clipboard, Clock, ArrowRight } from "lucide-react";
+import { Clipboard, Clock, ArrowRight } from "lucide-react";
 import Layout from "@/components/Layout";
 import CourseList from "@/components/CourseList";
-import { Separator } from "@/components/ui/separator";
 
 const Index = () => {
   return (
@@ -53,64 +52,17 @@ const Index = () => {
           </Card>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="md:col-span-2">
-            <Card>
-              <CardHeader>
-                <CardTitle>Your Courses</CardTitle>
-                <CardDescription>
-                  Recent and current courses that can be optimized
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <CourseList />
-              </CardContent>
-            </Card>
-          </div>
-          
-          <div>
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Insights</CardTitle>
-                <CardDescription>
-                  Top opportunities for improvement
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="border-l-4 border-orange-500 pl-4 py-1">
-                  <div className="font-medium">Assessment Duration</div>
-                  <p className="text-sm text-muted-foreground">Students take 35% longer than allocated time for Quiz 3</p>
-                  <div className="flex items-center mt-1 text-sm text-blue-600 hover:underline cursor-pointer">
-                    <span>View details</span>
-                    <ArrowRight className="ml-1" size={14} />
-                  </div>
-                </div>
-                
-                <Separator />
-                
-                <div className="border-l-4 border-red-500 pl-4 py-1">
-                  <div className="font-medium">Discussion Participation</div>
-                  <p className="text-sm text-muted-foreground">Week 5 forum saw 67% lower engagement than average</p>
-                  <div className="flex items-center mt-1 text-sm text-blue-600 hover:underline cursor-pointer">
-                    <span>View details</span>
-                    <ArrowRight className="ml-1" size={14} />
-                  </div>
-                </div>
-                
-                <Separator />
-                
-                <div className="border-l-4 border-green-500 pl-4 py-1">
-                  <div className="font-medium">Resource Utilization</div>
-                  <p className="text-sm text-muted-foreground">Interactive simulations have 3x engagement vs. PDFs</p>
-                  <div className="flex items-center mt-1 text-sm text-blue-600 hover:underline cursor-pointer">
-                    <span>View details</span>
-                    <ArrowRight className="ml-1" size={14} />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Your Courses</CardTitle>
+            <CardDescription>
+              Recent and current courses that can be optimized
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <CourseList />
+          </CardContent>
+        </Card>
       </div>
     </Layout>
   );
