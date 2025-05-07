@@ -3,7 +3,7 @@ import React from "react";
 import { useWizard } from "./WizardContext";
 import SelectCourse from "./steps/SelectCourse";
 import CoursePerformance from "./steps/CoursePerformance";
-import AISuggestions from "./steps/AISuggestions";
+import Opportunities from "./steps/Opportunities";
 import CourseComparison from "./steps/CourseComparison";
 import CourseFinalization from "./steps/CourseFinalization";
 import WizardNavigation from "./WizardNavigation";
@@ -24,7 +24,7 @@ const WizardContent: React.FC<WizardContentProps> = ({ isFullscreen = false }) =
       case 2:
         return <CoursePerformance />;
       case 3:
-        return <AISuggestions />;
+        return <Opportunities />;
       case 4:
         return <CourseComparison />;
       case 5:

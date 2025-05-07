@@ -276,7 +276,7 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
                 id: "assign1",
                 title: "Concept Mapping Exercise",
                 description: "Create a concept map of key terms",
-                type: "assignment",
+                type: "formative",
                 isHighlighted: false,
                 isModified: false,
                 isNew: false
@@ -291,7 +291,22 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
                 id: "quiz1",
                 title: "Basic Terminology Quiz",
                 description: "Test on basic terminology",
-                type: "quiz",
+                type: "summative",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          },
+          {
+            id: "resources-w1",
+            name: "Resources",
+            items: [
+              {
+                id: "res1",
+                title: "Getting Started Guide",
+                description: "Guide to help students navigate the course",
+                type: "resource",
                 isHighlighted: false,
                 isModified: false,
                 isNew: false
@@ -339,7 +354,7 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
                 id: "read1",
                 title: "Core Concepts Research Paper",
                 description: "Recent research on core concepts",
-                type: "reading",
+                type: "resource",
                 isHighlighted: false,
                 isModified: false,
                 isNew: false
@@ -354,7 +369,22 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
                 id: "assign2",
                 title: "Principle Application Task",
                 description: "Apply principles to a real-world scenario",
-                type: "assignment",
+                type: "formative",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          },
+          {
+            id: "quizzes-w2",
+            name: "Assessments",
+            items: [
+              {
+                id: "quiz2",
+                title: "Mid-Week Knowledge Check",
+                description: "Formative assessment to check understanding",
+                type: "formative",
                 isHighlighted: false,
                 isModified: false,
                 isNew: false
@@ -393,7 +423,7 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
                 id: "wkshp1",
                 title: "Practical Implementation Workshop",
                 description: "Hands-on session implementing advanced techniques",
-                type: "workshop",
+                type: "resource",
                 isHighlighted: false,
                 isModified: false,
                 isNew: false
@@ -408,7 +438,169 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
                 id: "assign3",
                 title: "Advanced Implementation Project",
                 description: "Complex project applying advanced concepts",
-                type: "assignment",
+                type: "formative",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          },
+          {
+            id: "exams-w3",
+            name: "Exams",
+            items: [
+              {
+                id: "exam1",
+                title: "Mid-term Examination",
+                description: "Comprehensive exam covering weeks 1-3",
+                type: "summative",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: "week4",
+        order: 4,
+        title: "Practical Applications",
+        description: "Applying learned concepts to real-world scenarios",
+        isHighlighted: false,
+        contentTypes: [
+          {
+            id: "lectures-w4",
+            name: "Lectures",
+            items: [
+              {
+                id: "lec6",
+                title: "Case Study Analysis",
+                description: "Detailed analysis of real-world applications",
+                type: "lecture",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              },
+              {
+                id: "lec7",
+                title: "Industry Best Practices",
+                description: "Overview of current industry standards",
+                type: "lecture",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          },
+          {
+            id: "workshops-w4",
+            name: "Workshops",
+            items: [
+              {
+                id: "wkshp2",
+                title: "Problem-Solving Workshop",
+                description: "Collaborative session addressing complex problems",
+                type: "resource",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          },
+          {
+            id: "assignments-w4",
+            name: "Assignments",
+            items: [
+              {
+                id: "assign4",
+                title: "Case Study Analysis Report",
+                description: "Written analysis of provided case studies",
+                type: "formative",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          },
+          {
+            id: "quizzes-w4",
+            name: "Quizzes",
+            items: [
+              {
+                id: "quiz3",
+                title: "Applied Concepts Quiz",
+                description: "Assessment of practical application knowledge",
+                type: "summative",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: "week5",
+        order: 5,
+        title: "Final Projects & Synthesis",
+        description: "Synthesis of course knowledge in final projects",
+        isHighlighted: false,
+        contentTypes: [
+          {
+            id: "lectures-w5",
+            name: "Lectures",
+            items: [
+              {
+                id: "lec8",
+                title: "Course Review & Integration",
+                description: "Comprehensive review of course topics",
+                type: "lecture",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          },
+          {
+            id: "presentations-w5",
+            name: "Presentations",
+            items: [
+              {
+                id: "pres1",
+                title: "Student Project Presentations",
+                description: "Presentation of final projects to the class",
+                type: "summative",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          },
+          {
+            id: "assignments-w5",
+            name: "Final Project",
+            items: [
+              {
+                id: "finalproj",
+                title: "Comprehensive Final Project",
+                description: "Capstone project demonstrating course mastery",
+                type: "summative",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          },
+          {
+            id: "exams-w5",
+            name: "Final Exam",
+            items: [
+              {
+                id: "finalexam",
+                title: "Final Course Examination",
+                description: "Comprehensive assessment of all course content",
+                type: "summative",
                 isHighlighted: false,
                 isModified: false,
                 isNew: false

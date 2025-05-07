@@ -14,7 +14,7 @@ const WizardSteps: React.FC<WizardStepsProps> = ({ isFullscreen = false }) => {
   const steps = [
     { id: 1, label: "Select Course" },
     { id: 2, label: "Review Performance" },
-    { id: 3, label: "AI Suggestions" },
+    { id: 3, label: "Opportunities" },
     { id: 4, label: "Course Comparison" },
     { id: 5, label: "Customize & Finalize" }
   ];
