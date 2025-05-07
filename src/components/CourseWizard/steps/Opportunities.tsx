@@ -253,7 +253,7 @@ const Opportunities = () => {
               <Card key={moduleId} className="shadow-sm">
                 <CardContent className="p-4">
                   <h3 className="font-semibold mb-3">
-                    Module {module.order}: {module.title}
+                    Week {module.order}: {module.title}
                   </h3>
 
                   <div className="space-y-3">
