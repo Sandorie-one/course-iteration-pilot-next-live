@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { useWizard } from "../WizardContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, AlertTriangle, X, Clock, Activity, TrendingUp, TrendingDown, ChevronRight } from "lucide-react";
-import BloomsTaxonomyChart from "../BloomsTaxonomyChart";
+import { CheckCircle, AlertTriangle, X, Clock, Activity, TrendingUp, TrendingDown } from "lucide-react";
 import PerformanceSummary from "../PerformanceSummary";
 import { Progress } from "@/components/ui/progress";
 
@@ -53,126 +51,119 @@ const CoursePerformance = () => {
         </p>
       </div>
 
-      <PerformanceSummary 
-        healthScore={performanceData.courseHealthScore}
-        opportunityCount={performanceData.opportunityCount}
-      />
+      <PerformanceSummary opportunityCount={performanceData.opportunityCount} />
 
       <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="mb-3">
           <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="bloomstaxonomy">Bloom's Taxonomy</TabsTrigger>
           <TabsTrigger value="engagement">Student Engagement</TabsTrigger>
           <TabsTrigger value="challenges">Learning Challenges</TabsTrigger>
         </TabsList>
         
         <TabsContent value="overview">
-          <div className="space-y-4">
-            {/* Stacked Strengths & Improvement Areas instead of side-by-side */}
-            <div className="space-y-4">
-              {/* Strengths Card - Modified for compact height */}
-              <Card className="shadow-sm hover:shadow-md transition-shadow overflow-hidden border-green-200">
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-4 py-2 border-b border-green-100">
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                      <div className="bg-green-100 p-1 rounded-full">
-                        <CheckCircle className="h-4 w-4 text-green-600" />
-                      </div>
-                      <CardTitle className="text-base">Course Strengths</CardTitle>
+          <div className="space-y-6">
+            {/* Strengths Card - Increased size */}
+            <Card className="shadow-sm hover:shadow-md transition-shadow overflow-hidden border-green-200">
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-5 py-3 border-b border-green-100">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <div className="bg-green-100 p-1.5 rounded-full">
+                      <CheckCircle className="h-5 w-5 text-green-600" />
                     </div>
-                    <Badge variant="outline" className="bg-green-100 text-green-700 border-green-200 text-xs">
-                      {performanceData.strengths.length} identified
-                    </Badge>
+                    <CardTitle className="text-lg">Course Strengths</CardTitle>
                   </div>
-                  <CardDescription className="text-xs ml-6">
-                    Key areas where your course performs well
-                  </CardDescription>
+                  <Badge variant="outline" className="bg-green-100 text-green-700 border-green-200">
+                    {performanceData.strengths.length} identified
+                  </Badge>
                 </div>
-                
-                <CardContent className="p-0">
-                  <ul className="divide-y text-sm">
-                    {performanceData.strengths.map((strength, index) => {
-                      return (
-                        <li 
-                          key={index} 
-                          className="p-2 hover:bg-slate-50 transition-colors"
-                        >
-                          <div className="font-medium">{strength}</div>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </CardContent>
-              </Card>
+                <CardDescription className="text-sm ml-8 mt-1">
+                  Key areas where your course performs well
+                </CardDescription>
+              </div>
               
-              {/* Improvement Areas Card - Modified for compact height */}
-              <Card className="shadow-sm hover:shadow-md transition-shadow overflow-hidden border-amber-200">
-                <div className="bg-gradient-to-r from-amber-50 to-orange-50 px-4 py-2 border-b border-amber-100">
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                      <div className="bg-amber-100 p-1 rounded-full">
-                        <AlertTriangle className="h-4 w-4 text-amber-600" />
-                      </div>
-                      <CardTitle className="text-base">Improvement Areas</CardTitle>
+              <CardContent className="p-0">
+                <ul className="divide-y text-sm">
+                  {performanceData.strengths.map((strength, index) => {
+                    return (
+                      <li 
+                        key={index} 
+                        className="p-4 hover:bg-slate-50 transition-colors"
+                      >
+                        <div className="font-medium text-base">{strength}</div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </CardContent>
+            </Card>
+            
+            {/* Improvement Areas Card - Increased size */}
+            <Card className="shadow-sm hover:shadow-md transition-shadow overflow-hidden border-amber-200">
+              <div className="bg-gradient-to-r from-amber-50 to-orange-50 px-5 py-3 border-b border-amber-100">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <div className="bg-amber-100 p-1.5 rounded-full">
+                      <AlertTriangle className="h-5 w-5 text-amber-600" />
                     </div>
-                    <Badge variant="outline" className="bg-amber-100 text-amber-700 border-amber-200 text-xs">
-                      {performanceData.weaknesses.length} opportunities
-                    </Badge>
+                    <CardTitle className="text-lg">Improvement Areas</CardTitle>
                   </div>
-                  <CardDescription className="text-xs ml-6">
-                    Focused opportunities to enhance your course
-                  </CardDescription>
+                  <Badge variant="outline" className="bg-amber-100 text-amber-700 border-amber-200">
+                    {performanceData.weaknesses.length} opportunities
+                  </Badge>
                 </div>
-                
-                <CardContent className="p-0">
-                  <ul className="divide-y text-sm">
-                    {performanceData.weaknesses.map((weakness, index) => {
-                      // Example priority data - would come from API in real implementation
-                      const priority = ["High", "Medium", "Low"][index % 3];
-                      const priorityColor = 
-                        priority === "High" ? "bg-red-50 text-red-700 border-red-100" :
-                        priority === "Medium" ? "bg-amber-50 text-amber-700 border-amber-100" :
-                        "bg-blue-50 text-blue-700 border-blue-100";
-                      
-                      return (
-                        <li 
-                          key={index} 
-                          className="p-2 hover:bg-slate-50 transition-colors"
-                        >
-                          <div className="flex justify-between items-start">
-                            <div className="font-medium">{weakness}</div>
-                            <Badge className={`${priorityColor} text-xs`}>
-                              {priority} Priority
-                            </Badge>
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
+                <CardDescription className="text-sm ml-8 mt-1">
+                  Focused opportunities to enhance your course
+                </CardDescription>
+              </div>
+              
+              <CardContent className="p-0">
+                <ul className="divide-y text-sm">
+                  {performanceData.weaknesses.map((weakness, index) => {
+                    // Example priority data - would come from API in real implementation
+                    const priority = ["High", "Medium", "Low"][index % 3];
+                    const priorityColor = 
+                      priority === "High" ? "bg-red-50 text-red-700 border-red-100" :
+                      priority === "Medium" ? "bg-amber-50 text-amber-700 border-amber-100" :
+                      "bg-blue-50 text-blue-700 border-blue-100";
+                    
+                    return (
+                      <li 
+                        key={index} 
+                        className="p-4 hover:bg-slate-50 transition-colors"
+                      >
+                        <div className="flex justify-between items-start">
+                          <div className="font-medium text-base">{weakness}</div>
+                          <Badge className={`${priorityColor}`}>
+                            {priority} Priority
+                          </Badge>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </CardContent>
+            </Card>
 
-            {/* Student Feedback cards - Modified for compact height */}
-            <div className="space-y-4">
+            {/* Student Feedback cards - Increased size and improved layout */}
+            <div className="grid grid-cols-1 gap-6 mt-8">
               <Card className="shadow-sm hover:shadow-md transition-shadow overflow-hidden border-blue-200">
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-2 border-b border-blue-100">
-                  <CardTitle className="text-base">Positive Feedback</CardTitle>
-                  <CardDescription className="text-xs">What students appreciated most</CardDescription>
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-5 py-3 border-b border-blue-100">
+                  <CardTitle className="text-lg">Positive Feedback</CardTitle>
+                  <CardDescription className="text-sm">What students appreciated most</CardDescription>
                 </div>
                 
-                <CardContent className="pt-2 p-3">
-                  <ul className="space-y-2">
+                <CardContent className="pt-2 p-4">
+                  <ul className="space-y-3">
                     {performanceData.studentFeedback.positive.map((feedback, index) => (
-                      <li key={index} className="bg-blue-50 border border-blue-100 rounded-lg p-2">
-                        <div className="flex items-start gap-2">
-                          <div className="bg-blue-100 p-1 rounded-full mt-0.5">
-                            <CheckCircle className="h-3 w-3 text-blue-700" />
+                      <li key={index} className="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                        <div className="flex items-start gap-3">
+                          <div className="bg-blue-100 p-1.5 rounded-full mt-0.5">
+                            <CheckCircle className="h-4 w-4 text-blue-700" />
                           </div>
                           <div>
-                            <p className="text-xs">{feedback}</p>
-                            <div className="mt-1 flex items-center text-xs text-blue-700">
-                              <span className="font-medium text-[10px]">Mentioned by 32% of students</span>
+                            <p className="text-base">{feedback}</p>
+                            <div className="mt-2 flex items-center text-sm text-blue-700">
+                              <span className="font-medium">Mentioned by 32% of students</span>
                             </div>
                           </div>
                         </div>
@@ -183,23 +174,23 @@ const CoursePerformance = () => {
               </Card>
               
               <Card className="shadow-sm hover:shadow-md transition-shadow overflow-hidden border-purple-200">
-                <div className="bg-gradient-to-r from-purple-50 to-pink-50 px-4 py-2 border-b border-purple-100">
-                  <CardTitle className="text-base">Critical Feedback</CardTitle>
-                  <CardDescription className="text-xs">Areas students identified for improvement</CardDescription>
+                <div className="bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-3 border-b border-purple-100">
+                  <CardTitle className="text-lg">Critical Feedback</CardTitle>
+                  <CardDescription className="text-sm">Areas students identified for improvement</CardDescription>
                 </div>
                 
-                <CardContent className="pt-2 p-3">
-                  <ul className="space-y-2">
+                <CardContent className="pt-2 p-4">
+                  <ul className="space-y-3">
                     {performanceData.studentFeedback.negative.map((feedback, index) => (
-                      <li key={index} className="bg-purple-50 border border-purple-100 rounded-lg p-2">
-                        <div className="flex items-start gap-2">
-                          <div className="bg-purple-100 p-1 rounded-full mt-0.5">
-                            <AlertTriangle className="h-3 w-3 text-purple-700" />
+                      <li key={index} className="bg-purple-50 border border-purple-100 rounded-lg p-4">
+                        <div className="flex items-start gap-3">
+                          <div className="bg-purple-100 p-1.5 rounded-full mt-0.5">
+                            <AlertTriangle className="h-4 w-4 text-purple-700" />
                           </div>
                           <div>
-                            <p className="text-xs">{feedback}</p>
-                            <div className="mt-1 flex items-center text-xs text-purple-700">
-                              <span className="font-medium text-[10px]">Mentioned by 18% of students</span>
+                            <p className="text-base">{feedback}</p>
+                            <div className="mt-2 flex items-center text-sm text-purple-700">
+                              <span className="font-medium">Mentioned by 18% of students</span>
                             </div>
                           </div>
                         </div>
@@ -209,42 +200,6 @@ const CoursePerformance = () => {
                 </CardContent>
               </Card>
             </div>
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="bloomstaxonomy">
-          <div className="space-y-6">
-            <BloomsTaxonomyChart data={performanceData.bloomsTaxonomy} />
-            
-            <Card className="shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader>
-                <CardTitle>Taxonomy Analysis</CardTitle>
-                <CardDescription>Insights about cognitive skill distribution</CardDescription>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <p className="mb-4 text-sm">
-                  Your course currently emphasizes lower-order thinking skills (Remember, Understand) 
-                  over higher-order thinking skills (Analyze, Evaluate, Create). This distribution is
-                  common in introductory courses, but could be improved for better learning outcomes.
-                </p>
-                
-                <h4 className="font-medium mb-2">Recommendations</h4>
-                <ul className="list-disc pl-5 space-y-2">
-                  <li className="text-sm">
-                    Increase analysis activities by having students compare and contrast key concepts
-                  </li>
-                  <li className="text-sm">
-                    Add evaluation components where students judge the validity of different approaches
-                  </li>
-                  <li className="text-sm">
-                    Incorporate more creative tasks that allow students to design or produce original work
-                  </li>
-                  <li className="text-sm">
-                    Balance lower-order activities with higher-order challenges to develop complete understanding
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
           </div>
         </TabsContent>
         
