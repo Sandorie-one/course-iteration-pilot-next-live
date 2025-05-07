@@ -6,9 +6,11 @@ import Layout from "@/components/Layout";
 import CourseList from "@/components/CourseList";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import CourseWizard from "@/components/CourseWizard/CourseWizard";
 
 const Index = () => {
   const [isNewCourseDialogOpen, setIsNewCourseDialogOpen] = useState(false);
+  const [isWizardDialogOpen, setIsWizardDialogOpen] = useState(false);
 
   return (
     <Layout>
@@ -95,7 +97,10 @@ const Index = () => {
                 </CardContent>
               </Card>
 
-              <Card className="hover:bg-slate-50 transition cursor-pointer">
+              <Card className="hover:bg-slate-50 transition cursor-pointer" onClick={() => {
+                setIsNewCourseDialogOpen(false);
+                setIsWizardDialogOpen(true);
+              }}>
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
                     <div className="bg-green-50 p-3 rounded-lg">
@@ -112,6 +117,17 @@ const Index = () => {
                 </CardContent>
               </Card>
             </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Course Creation Wizard Dialog */}
+        <Dialog 
+          open={isWizardDialogOpen} 
+          onOpenChange={setIsWizardDialogOpen} 
+          modal={true}
+        >
+          <DialogContent className="sm:max-w-5xl">
+            <CourseWizard />
           </DialogContent>
         </Dialog>
       </div>
