@@ -1,7 +1,7 @@
 
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, FileEmpty, Copy, ArrowRight } from "lucide-react";
+import { PlusCircle, File, Copy, ArrowRight } from "lucide-react";
 import Layout from "@/components/Layout";
 import CourseList from "@/components/CourseList";
 import { useState } from "react";
@@ -82,7 +82,7 @@ const Index = () => {
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
                     <div className="bg-blue-50 p-3 rounded-lg">
-                      <FileEmpty className="h-6 w-6 text-blue-600" />
+                      <File className="h-6 w-6 text-blue-600" />
                     </div>
                     <div className="flex-1">
                       <h3 className="font-medium mb-1">Start from scratch</h3>
