@@ -1,11 +1,15 @@
 
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Clipboard, Clock, ArrowRight } from "lucide-react";
+import { PlusCircle, FileEmpty, Copy, ArrowRight } from "lucide-react";
 import Layout from "@/components/Layout";
 import CourseList from "@/components/CourseList";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const Index = () => {
+  const [isNewCourseDialogOpen, setIsNewCourseDialogOpen] = useState(false);
+
   return (
     <Layout>
       <div className="space-y-6">
@@ -14,9 +18,9 @@ const Index = () => {
             <h1 className="text-3xl font-bold">Welcome back, Professor!</h1>
             <p className="text-slate-500">Here's an overview of your courses and potential improvements.</p>
           </div>
-          <Button>
-            <Clipboard className="mr-2" />
-            Import Course Data
+          <Button onClick={() => setIsNewCourseDialogOpen(true)}>
+            <PlusCircle className="mr-2" />
+            Create New Course
           </Button>
         </div>
 
@@ -63,6 +67,53 @@ const Index = () => {
             <CourseList />
           </CardContent>
         </Card>
+
+        {/* Create New Course Dialog */}
+        <Dialog open={isNewCourseDialogOpen} onOpenChange={setIsNewCourseDialogOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Create New Course</DialogTitle>
+              <DialogDescription>
+                Choose your starting point to create a new course
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid grid-cols-1 gap-4 py-4">
+              <Card className="hover:bg-slate-50 transition cursor-pointer">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="bg-blue-50 p-3 rounded-lg">
+                      <FileEmpty className="h-6 w-6 text-blue-600" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-medium mb-1">Start from scratch</h3>
+                      <p className="text-sm text-slate-500 mb-3">Create a new course with empty modules and sections</p>
+                      <Button size="sm">
+                        Start fresh
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:bg-slate-50 transition cursor-pointer">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="bg-green-50 p-3 rounded-lg">
+                      <Copy className="h-6 w-6 text-green-600" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-medium mb-1">Leverage existing course</h3>
+                      <p className="text-sm text-slate-500 mb-3">Copy structure and content from an existing course</p>
+                      <Button size="sm" variant="outline">
+                        Select course
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </Layout>
   );
