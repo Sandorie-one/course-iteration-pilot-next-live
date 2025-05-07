@@ -36,9 +36,10 @@ const WizardContent: React.FC<WizardContentProps> = ({ isFullscreen = false }) =
 
   // Adjust height for different steps and fullscreen mode
   const getScrollAreaHeight = () => {
-    // In fullscreen mode, provide more space
+    // In fullscreen mode, provide more space but ensure navigation buttons remain visible
     if (isFullscreen) {
-      return currentStep === 3 ? "h-[calc(100vh-180px)]" : "h-[calc(100vh-250px)]";
+      // Reserve more space at the bottom for navigation buttons in fullscreen mode
+      return currentStep === 3 ? "h-[calc(100vh-220px)]" : "h-[calc(100vh-280px)]";
     }
     
     // Regular mode heights
