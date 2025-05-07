@@ -1,4 +1,3 @@
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Info } from "lucide-react";
@@ -160,11 +159,11 @@ const CourseList = () => {
                           side="right" 
                           align="start" 
                           sideOffset={10}
-                          className="w-80"
+                          className="w-80 break-words"
                         >
                           <div className="space-y-2">
                             <h4 className="font-medium">{course.impactLevel.charAt(0).toUpperCase() + course.impactLevel.slice(1)} Impact Level</h4>
-                            <p className="text-sm text-slate-500">{description}</p>
+                            <p className="text-sm text-slate-500 break-words">{description}</p>
                             
                             <div className="pt-2 border-t border-slate-100">
                               <div className="text-xs text-slate-500">
