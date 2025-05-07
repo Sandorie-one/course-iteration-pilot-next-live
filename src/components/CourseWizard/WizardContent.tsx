@@ -30,7 +30,7 @@ const WizardContent = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="bg-white border rounded-lg p-6">
+      <div className="bg-white border rounded-lg p-6 overflow-hidden">
         {renderStep()}
       </div>
       <WizardNavigation />
