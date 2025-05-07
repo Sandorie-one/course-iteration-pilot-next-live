@@ -8,7 +8,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, AlertTriangle, X, Clock, Activity } from "lucide-react";
 import BloomsTaxonomyChart from "../BloomsTaxonomyChart";
-import PerformanceChart from "@/components/PerformanceChart";
 import PerformanceSummary from "../PerformanceSummary";
 
 // Helper function to get color based on performance
@@ -58,21 +57,10 @@ const CoursePerformance = () => {
           <TabsTrigger value="bloomstaxonomy">Bloom's Taxonomy</TabsTrigger>
           <TabsTrigger value="engagement">Student Engagement</TabsTrigger>
           <TabsTrigger value="challenges">Learning Challenges</TabsTrigger>
-          <TabsTrigger value="feedback">Student Feedback</TabsTrigger>
         </TabsList>
         
         <TabsContent value="overview">
           <div className="space-y-6">
-            <Card className="shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader>
-                <CardTitle>Module Performance</CardTitle>
-                <CardDescription>Student performance across course modules</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <PerformanceChart />
-              </CardContent>
-            </Card>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card className="shadow-sm hover:shadow-md transition-shadow">
                 <CardHeader>
@@ -97,6 +85,37 @@ const CoursePerformance = () => {
                   <ul className="list-disc pl-5 space-y-2">
                     {performanceData.weaknesses.map((weakness, index) => (
                       <li key={index} className="text-sm">{weakness}</li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Student Feedback cards - moved from feedback tab */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card className="shadow-sm hover:shadow-md transition-shadow">
+                <CardHeader>
+                  <CardTitle>Positive Feedback</CardTitle>
+                  <CardDescription>Common themes from student feedback</CardDescription>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <ul className="list-disc pl-5 space-y-2">
+                    {performanceData.studentFeedback.positive.map((feedback, index) => (
+                      <li key={index} className="text-sm">{feedback}</li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+              
+              <Card className="shadow-sm hover:shadow-md transition-shadow">
+                <CardHeader>
+                  <CardTitle>Critical Feedback</CardTitle>
+                  <CardDescription>Areas students identified for improvement</CardDescription>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <ul className="list-disc pl-5 space-y-2">
+                    {performanceData.studentFeedback.negative.map((feedback, index) => (
+                      <li key={index} className="text-sm">{feedback}</li>
                     ))}
                   </ul>
                 </CardContent>
@@ -141,7 +160,7 @@ const CoursePerformance = () => {
           </div>
         </TabsContent>
         
-        {/* New Student Engagement Tab */}
+        {/* Student Engagement Tab */}
         <TabsContent value="engagement">
           <div className="space-y-6">
             <Card className="shadow-sm hover:shadow-md transition-shadow">
@@ -214,7 +233,7 @@ const CoursePerformance = () => {
           </div>
         </TabsContent>
 
-        {/* New Learning Challenges Tab */}
+        {/* Learning Challenges Tab */}
         <TabsContent value="challenges">
           <div className="space-y-6">
             <Card className="shadow-sm hover:shadow-md transition-shadow">
@@ -271,38 +290,6 @@ const CoursePerformance = () => {
                     </p>
                   </AlertDescription>
                 </Alert>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-        
-        <TabsContent value="feedback">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader>
-                <CardTitle>Positive Feedback</CardTitle>
-                <CardDescription>Common themes from student feedback</CardDescription>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <ul className="list-disc pl-5 space-y-2">
-                  {performanceData.studentFeedback.positive.map((feedback, index) => (
-                    <li key={index} className="text-sm">{feedback}</li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-            
-            <Card className="shadow-sm hover:shadow-md transition-shadow">
-              <CardHeader>
-                <CardTitle>Critical Feedback</CardTitle>
-                <CardDescription>Areas students identified for improvement</CardDescription>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <ul className="list-disc pl-5 space-y-2">
-                  {performanceData.studentFeedback.negative.map((feedback, index) => (
-                    <li key={index} className="text-sm">{feedback}</li>
-                  ))}
-                </ul>
               </CardContent>
             </Card>
           </div>
