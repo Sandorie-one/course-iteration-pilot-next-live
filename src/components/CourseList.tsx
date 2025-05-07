@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 type Course = {
   id: string;
@@ -13,6 +14,7 @@ type Course = {
   improvements: number;
   timeEstimate: number;
   status: "current" | "past" | "upcoming";
+  impact: "high" | "medium" | "low";
 };
 
 const CourseList = () => {
@@ -24,7 +26,8 @@ const CourseList = () => {
       semester: "Fall 2023",
       improvements: 5,
       timeEstimate: 1.5,
-      status: "past"
+      status: "past",
+      impact: "high"
     },
     {
       id: "2",
@@ -33,7 +36,8 @@ const CourseList = () => {
       semester: "Spring 2024",
       improvements: 3,
       timeEstimate: 1.0,
-      status: "current"
+      status: "current",
+      impact: "medium"
     },
     {
       id: "3",
@@ -42,7 +46,8 @@ const CourseList = () => {
       semester: "Fall 2023",
       improvements: 2,
       timeEstimate: 0.5,
-      status: "past"
+      status: "past",
+      impact: "low"
     },
     {
       id: "4",
@@ -51,7 +56,8 @@ const CourseList = () => {
       semester: "Fall 2024",
       improvements: 0,
       timeEstimate: 0,
-      status: "upcoming"
+      status: "upcoming",
+      impact: "low"
     },
     {
       id: "5",
@@ -60,7 +66,8 @@ const CourseList = () => {
       semester: "Spring 2024",
       improvements: 2,
       timeEstimate: 1.5,
-      status: "current"
+      status: "current",
+      impact: "medium"
     }
   ]);
 
@@ -77,6 +84,42 @@ const CourseList = () => {
     }
   };
 
+  const getImpactColor = (impact: Course["impact"]) => {
+    switch (impact) {
+      case "high":
+        return "bg-red-100 text-red-800 border-red-200";
+      case "medium":
+        return "bg-amber-100 text-amber-800 border-amber-200";
+      case "low":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      default:
+        return "";
+    }
+  };
+  
+  const getImpactDescription = (impact: Course["impact"]) => {
+    switch (impact) {
+      case "high":
+        return {
+          title: "High Impact",
+          description: "These improvements could significantly affect student outcomes. Students may see a 10-15% improvement in grades and mastery of key learning objectives.",
+          action: "Recommended to implement as soon as possible."
+        };
+      case "medium":
+        return {
+          title: "Medium Impact",
+          description: "These improvements could moderately improve student performance. Students may see a 5-10% improvement in grades and better understanding of course materials.",
+          action: "Consider implementing during the current semester."
+        };
+      case "low":
+        return {
+          title: "Low Impact",
+          description: "These improvements offer minor enhancements. Students may see a slight 2-5% improvement in specific areas of the course.",
+          action: "Can be implemented when time allows."
+        };
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div className="overflow-x-auto">
@@ -87,6 +130,7 @@ const CourseList = () => {
               <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Semester</th>
               <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
               <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Improvement opportunities</th>
+              <th className="px-3 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Impact</th>
               <th className="px-3 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">Action</th>
             </tr>
           </thead>
@@ -111,6 +155,35 @@ const CourseList = () => {
                       {course.improvements} {course.status === "past" ? "missed opportunities" : "opportunities"}
                     </span>
                   ) : "No issues found"}
+                </td>
+                <td className="px-3 py-4 whitespace-nowrap text-sm">
+                  {course.improvements > 0 ? (
+                    <HoverCard>
+                      <HoverCardTrigger asChild>
+                        <Badge className={getImpactColor(course.impact)}>
+                          {course.impact.charAt(0).toUpperCase() + course.impact.slice(1)}
+                        </Badge>
+                      </HoverCardTrigger>
+                      <HoverCardContent 
+                        className="w-80 break-words" 
+                        side="right" 
+                        align="start" 
+                        sideOffset={5}
+                      >
+                        <div className="space-y-2">
+                          <h4 className="font-medium">{getImpactDescription(course.impact)?.title}</h4>
+                          <p className="text-sm text-slate-500 break-words">
+                            {getImpactDescription(course.impact)?.description}
+                          </p>
+                          <p className="text-xs font-medium">
+                            {getImpactDescription(course.impact)?.action}
+                          </p>
+                        </div>
+                      </HoverCardContent>
+                    </HoverCard>
+                  ) : (
+                    <span className="text-slate-500">N/A</span>
+                  )}
                 </td>
                 <td className="px-3 py-4 whitespace-nowrap text-right text-sm">
                   <Link to={`/course/${course.id}`}>
