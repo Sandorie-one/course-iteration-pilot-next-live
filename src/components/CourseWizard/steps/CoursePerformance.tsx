@@ -188,9 +188,9 @@ const CoursePerformance = () => {
                               <CheckCircle className="h-4 w-4 text-blue-700" />
                             </div>
                             <div>
-                              <p className="text-base">{feedback}</p>
+                              <p className="text-base">{feedback.text}</p>
                               <div className="mt-2 flex items-center text-sm text-blue-700">
-                                <span className="font-medium">Mentioned by 32% of students</span>
+                                <span className="font-medium">Mentioned by {feedback.percentage}% of students</span>
                               </div>
                             </div>
                           </div>
@@ -216,9 +216,9 @@ const CoursePerformance = () => {
                               <AlertTriangle className="h-4 w-4 text-purple-700" />
                             </div>
                             <div>
-                              <p className="text-base">{feedback}</p>
+                              <p className="text-base">{feedback.text}</p>
                               <div className="mt-2 flex items-center text-sm text-purple-700">
-                                <span className="font-medium">Mentioned by 18% of students</span>
+                                <span className="font-medium">Mentioned by {feedback.percentage}% of students</span>
                               </div>
                             </div>
                           </div>

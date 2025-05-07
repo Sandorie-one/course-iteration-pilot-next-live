@@ -40,8 +40,8 @@ type PerformanceData = {
   strengths: string[];
   weaknesses: string[];
   studentFeedback: {
-    positive: string[];
-    negative: string[];
+    positive: { text: string; percentage: number }[];
+    negative: { text: string; percentage: number }[];
   };
   modulePerformance: {
     moduleId: string;
@@ -722,14 +722,14 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         ],
         studentFeedback: {
           positive: [
-            "Enjoyed the interactive elements",
-            "Found the course structure logical",
-            "Appreciated the real-world examples"
+            { text: "Enjoyed the interactive elements", percentage: 42 },
+            { text: "Found the course structure logical", percentage: 35 },
+            { text: "Appreciated the real-world examples", percentage: 23 }
           ],
           negative: [
-            "Too much theory without practical application",
-            "Final project requirements unclear",
-            "Would benefit from more visual aids"
+            { text: "Too much theory without practical application", percentage: 38 },
+            { text: "Final project requirements unclear", percentage: 29 },
+            { text: "Would benefit from more visual aids", percentage: 15 }
           ]
         },
         modulePerformance: [
