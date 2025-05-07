@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 type Course = {
@@ -27,6 +26,24 @@ type Suggestion = {
   impact: "high" | "medium" | "low";
   effort: "high" | "medium" | "low";
   selected: boolean;
+};
+
+// New types for course outline
+type ContentType = "reading" | "assignment" | "discussion" | "quiz";
+
+type CourseContent = {
+  id: string;
+  title: string;
+  type: ContentType;
+  description: string;
+  isNew?: boolean;
+};
+
+type CourseWeek = {
+  id: string;
+  title: string;
+  order: number;
+  content: CourseContent[];
 };
 
 type PerformanceData = {
@@ -80,12 +97,16 @@ interface WizardContextType {
   suggestions: Suggestion[];
   performanceData: PerformanceData | null;
   isLoading: boolean;
+  courseOutline: CourseWeek[]; // New state for course outline
   nextStep: () => void;
   prevStep: () => void;
   goToStep: (step: number) => void;
   selectCourse: (course: Course) => void;
   updateSuggestion: (id: string, selected: boolean) => void;
   coursesList: Course[];
+  applySuggestion: (suggestionId: string) => void; // New function to apply suggestion to outline
+  previewSuggestion: (suggestionId: string) => void; // New function to preview a suggestion
+  clearPreview: () => void; // Clear any active preview
 }
 
 const defaultContext: WizardContextType = {
@@ -96,12 +117,16 @@ const defaultContext: WizardContextType = {
   suggestions: [],
   performanceData: null,
   isLoading: false,
+  courseOutline: [], // Initialize empty course outline
   nextStep: () => {},
   prevStep: () => {},
   goToStep: () => {},
   selectCourse: () => {},
   updateSuggestion: () => {},
-  coursesList: []
+  coursesList: [],
+  applySuggestion: () => {},
+  previewSuggestion: () => {},
+  clearPreview: () => {}
 };
 
 const WizardContext = createContext<WizardContextType>(defaultContext);
@@ -116,6 +141,8 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
   const [courseModules, setCourseModules] = useState<CourseModule[]>([]);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [performanceData, setPerformanceData] = useState<PerformanceData | null>(null);
+  const [courseOutline, setCourseOutline] = useState<CourseWeek[]>([]); // State for course outline
+  const [previewSuggestionId, setPreviewSuggestionId] = useState<string | null>(null);
 
   // Mock course data
   const coursesList = [
@@ -306,9 +333,44 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         courseHealthScore: 71
       };
 
+      // Mock course outline data
+      const mockCourseOutline: CourseWeek[] = [
+        {
+          id: "w1",
+          title: "Week 1: Getting Started",
+          order: 1,
+          content: [
+            { id: "c1", title: "Course Introduction", type: "reading", description: "Overview of course topics and learning objectives" },
+            { id: "c2", title: "Setup Your Environment", type: "assignment", description: "Install required software and tools" },
+            { id: "c3", title: "Introduce Yourself", type: "discussion", description: "Share your background and interests with classmates" }
+          ]
+        },
+        {
+          id: "w2",
+          title: "Week 2: Fundamentals",
+          order: 2,
+          content: [
+            { id: "c4", title: "Basic Principles", type: "reading", description: "Core concepts and terminology" },
+            { id: "c5", title: "Knowledge Check", type: "quiz", description: "Test your understanding of fundamental concepts" },
+            { id: "c6", title: "Apply Fundamentals", type: "assignment", description: "Hands-on practice with core concepts" }
+          ]
+        },
+        {
+          id: "w3",
+          title: "Week 3: Advanced Concepts",
+          order: 3,
+          content: [
+            { id: "c7", title: "Advanced Theories", type: "reading", description: "Deeper exploration of key concepts" },
+            { id: "c8", title: "Critical Analysis", type: "discussion", description: "Analyze and discuss complex scenarios" },
+            { id: "c9", title: "Concept Assessment", type: "quiz", description: "Test your understanding of advanced concepts" }
+          ]
+        }
+      ];
+
       setCourseModules(modules);
       setSuggestions(courseSuggestions);
       setPerformanceData(mockPerformanceData);
+      setCourseOutline(mockCourseOutline);
       setIsLoading(false);
     }, 1000);
   };
@@ -321,6 +383,109 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
+  // Function to apply a suggestion to the course outline
+  const applySuggestion = (suggestionId: string) => {
+    const suggestion = suggestions.find(s => s.id === suggestionId);
+    if (!suggestion) return;
+
+    let newCourseOutline = [...courseOutline];
+    
+    // Based on the suggestion, update the course outline
+    // This is a simplified implementation - a real app would have more complex logic
+    switch (suggestionId) {
+      case "s1": // Add interactive quiz
+        if (newCourseOutline[0]) {
+          newCourseOutline[0].content.push({
+            id: "new-quiz-1",
+            title: "Introduction Quiz",
+            type: "quiz",
+            description: "Interactive quiz to reinforce key concepts",
+            isNew: true
+          });
+        }
+        break;
+      case "s2": // Include more visual examples
+        if (newCourseOutline[1]) {
+          newCourseOutline[1].content.push({
+            id: "new-reading-1",
+            title: "Visual Guide to Core Concepts",
+            type: "reading",
+            description: "Illustrated explanations of key concepts with diagrams",
+            isNew: true
+          });
+        }
+        break;
+      case "s3": // Restructure content flow
+        if (newCourseOutline[2]) {
+          // Reorder some content and add a new item
+          newCourseOutline[2].content = [
+            ...newCourseOutline[2].content,
+            {
+              id: "new-structure-1",
+              title: "Concept Synthesis",
+              type: "assignment",
+              description: "Connect advanced topics with fundamental principles",
+              isNew: true
+            }
+          ];
+        }
+        break;
+      case "s4": // Add industry case studies
+        if (newCourseOutline[2]) {
+          newCourseOutline[2].content.push({
+            id: "new-reading-2",
+            title: "Industry Case Studies",
+            type: "reading",
+            description: "Real-world applications and examples from industry",
+            isNew: true
+          });
+        }
+        break;
+      case "s5": // Create milestone structure
+        // Add a new week with milestone structure
+        newCourseOutline.push({
+          id: "w4",
+          title: "Week 4: Final Project Milestones",
+          order: 4,
+          content: [
+            {
+              id: "new-milestone-1",
+              title: "Project Planning",
+              type: "assignment",
+              description: "Develop project plan and objectives",
+              isNew: true
+            },
+            {
+              id: "new-milestone-2",
+              title: "Implementation Phase",
+              type: "assignment",
+              description: "Begin implementation based on project plan",
+              isNew: true
+            }
+          ]
+        });
+        break;
+    }
+    
+    setCourseOutline(newCourseOutline);
+    
+    // Mark suggestion as selected
+    updateSuggestion(suggestionId, true);
+    
+    // Clear any active preview
+    setPreviewSuggestionId(null);
+  };
+
+  // Preview a suggestion (temporary view)
+  const previewSuggestion = (suggestionId: string) => {
+    setPreviewSuggestionId(suggestionId);
+  };
+
+  // Clear preview
+  const clearPreview = () => {
+    setPreviewSuggestionId(null);
+  };
+
   return (
     <WizardContext.Provider
       value={{
@@ -331,12 +496,16 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         suggestions,
         performanceData,
         isLoading,
+        courseOutline,
         nextStep,
         prevStep,
         goToStep,
         selectCourse,
         updateSuggestion,
-        coursesList
+        coursesList,
+        applySuggestion,
+        previewSuggestion,
+        clearPreview
       }}
     >
       {children}

@@ -29,10 +29,17 @@ const WizardContent = () => {
     }
   };
 
+  // For AI Suggestions step, we need a taller view
+  const getScrollHeight = () => {
+    return currentStep === 3 
+      ? "h-[calc(100vh-200px)]" 
+      : "h-[calc(100vh-260px)]";
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <div className="bg-white border rounded-lg p-4">
-        <ScrollArea className="h-[calc(100vh-260px)] pr-4">
+        <ScrollArea className={`${getScrollHeight()} pr-4`}>
           {renderStep()}
         </ScrollArea>
       </div>
