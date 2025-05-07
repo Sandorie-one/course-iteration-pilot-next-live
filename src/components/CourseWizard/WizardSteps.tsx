@@ -15,7 +15,7 @@ const WizardSteps = () => {
   ];
 
   return (
-    <div className="w-full">
+    <div className="w-full py-8">
       <div className="flex items-center justify-between">
         {steps.map((step, index) => (
           <React.Fragment key={step.id}>
