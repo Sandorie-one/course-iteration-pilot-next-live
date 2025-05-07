@@ -30,9 +30,9 @@ const WizardContent = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="bg-white border rounded-lg p-6">
-        <ScrollArea className="h-[calc(100vh-280px)] pr-4">
+    <div className="flex flex-col gap-4">
+      <div className="bg-white border rounded-lg p-4">
+        <ScrollArea className="h-[calc(100vh-260px)] pr-4">
           {renderStep()}
         </ScrollArea>
       </div>

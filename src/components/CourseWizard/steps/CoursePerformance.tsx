@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useWizard } from "../WizardContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -37,18 +36,18 @@ const CoursePerformance = () => {
   const [activeTab, setActiveTab] = useState("overview");
 
   if (isLoading) {
-    return <div className="flex justify-center py-8">Loading course performance data...</div>;
+    return <div className="flex justify-center py-6">Loading course performance data...</div>;
   }
 
   if (!selectedCourse || !performanceData) {
-    return <div className="text-center py-8">Please select a course first</div>;
+    return <div className="text-center py-6">Please select a course first</div>;
   }
 
   return (
-    <div className="space-y-6">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-2">Course Performance Analysis</h2>
-        <p className="text-slate-500">
+    <div className="space-y-4">
+      <div className="mb-3">
+        <h2 className="text-xl font-bold mb-1">Course Performance Analysis</h2>
+        <p className="text-sm text-slate-500">
           Review performance data for {selectedCourse.title} ({selectedCourse.code}) to identify 
           areas for improvement in your new course.
         </p>
@@ -60,7 +59,7 @@ const CoursePerformance = () => {
       />
 
       <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="mb-4">
+        <TabsList className="mb-3">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="bloomstaxonomy">Bloom's Taxonomy</TabsTrigger>
           <TabsTrigger value="engagement">Student Engagement</TabsTrigger>
@@ -68,35 +67,35 @@ const CoursePerformance = () => {
         </TabsList>
         
         <TabsContent value="overview">
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Stacked Strengths & Improvement Areas instead of side-by-side */}
-            <div className="space-y-6">
-              {/* Strengths Card - Modified */}
+            <div className="space-y-4">
+              {/* Strengths Card - Modified for compact height */}
               <Card className="shadow-sm hover:shadow-md transition-shadow overflow-hidden border-green-200">
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-6 py-4 border-b border-green-100">
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-4 py-2 border-b border-green-100">
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-2">
-                      <div className="bg-green-100 p-1.5 rounded-full">
-                        <CheckCircle className="h-5 w-5 text-green-600" />
+                      <div className="bg-green-100 p-1 rounded-full">
+                        <CheckCircle className="h-4 w-4 text-green-600" />
                       </div>
-                      <CardTitle className="text-lg">Course Strengths</CardTitle>
+                      <CardTitle className="text-base">Course Strengths</CardTitle>
                     </div>
-                    <Badge variant="outline" className="bg-green-100 text-green-700 border-green-200">
+                    <Badge variant="outline" className="bg-green-100 text-green-700 border-green-200 text-xs">
                       {performanceData.strengths.length} identified
                     </Badge>
                   </div>
-                  <CardDescription className="mt-1">
+                  <CardDescription className="text-xs ml-6">
                     Key areas where your course performs well
                   </CardDescription>
                 </div>
                 
                 <CardContent className="p-0">
-                  <ul className="divide-y">
+                  <ul className="divide-y text-sm">
                     {performanceData.strengths.map((strength, index) => {
                       return (
                         <li 
                           key={index} 
-                          className="p-4 hover:bg-slate-50 transition-colors"
+                          className="p-2 hover:bg-slate-50 transition-colors"
                         >
                           <div className="font-medium">{strength}</div>
                         </li>
@@ -106,27 +105,27 @@ const CoursePerformance = () => {
                 </CardContent>
               </Card>
               
-              {/* Improvement Areas Card - Modified */}
+              {/* Improvement Areas Card - Modified for compact height */}
               <Card className="shadow-sm hover:shadow-md transition-shadow overflow-hidden border-amber-200">
-                <div className="bg-gradient-to-r from-amber-50 to-orange-50 px-6 py-4 border-b border-amber-100">
+                <div className="bg-gradient-to-r from-amber-50 to-orange-50 px-4 py-2 border-b border-amber-100">
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-2">
-                      <div className="bg-amber-100 p-1.5 rounded-full">
-                        <AlertTriangle className="h-5 w-5 text-amber-600" />
+                      <div className="bg-amber-100 p-1 rounded-full">
+                        <AlertTriangle className="h-4 w-4 text-amber-600" />
                       </div>
-                      <CardTitle className="text-lg">Improvement Areas</CardTitle>
+                      <CardTitle className="text-base">Improvement Areas</CardTitle>
                     </div>
-                    <Badge variant="outline" className="bg-amber-100 text-amber-700 border-amber-200">
+                    <Badge variant="outline" className="bg-amber-100 text-amber-700 border-amber-200 text-xs">
                       {performanceData.weaknesses.length} opportunities
                     </Badge>
                   </div>
-                  <CardDescription className="mt-1">
+                  <CardDescription className="text-xs ml-6">
                     Focused opportunities to enhance your course
                   </CardDescription>
                 </div>
                 
                 <CardContent className="p-0">
-                  <ul className="divide-y">
+                  <ul className="divide-y text-sm">
                     {performanceData.weaknesses.map((weakness, index) => {
                       // Example priority data - would come from API in real implementation
                       const priority = ["High", "Medium", "Low"][index % 3];
@@ -138,11 +137,11 @@ const CoursePerformance = () => {
                       return (
                         <li 
                           key={index} 
-                          className="p-4 hover:bg-slate-50 transition-colors"
+                          className="p-2 hover:bg-slate-50 transition-colors"
                         >
                           <div className="flex justify-between items-start">
                             <div className="font-medium">{weakness}</div>
-                            <Badge className={priorityColor}>
+                            <Badge className={`${priorityColor} text-xs`}>
                               {priority} Priority
                             </Badge>
                           </div>
@@ -154,26 +153,26 @@ const CoursePerformance = () => {
               </Card>
             </div>
 
-            {/* Student Feedback cards - Modified to stack vertically */}
-            <div className="space-y-6">
+            {/* Student Feedback cards - Modified for compact height */}
+            <div className="space-y-4">
               <Card className="shadow-sm hover:shadow-md transition-shadow overflow-hidden border-blue-200">
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-blue-100">
-                  <CardTitle className="text-lg">Positive Feedback</CardTitle>
-                  <CardDescription className="mt-1">What students appreciated most</CardDescription>
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-2 border-b border-blue-100">
+                  <CardTitle className="text-base">Positive Feedback</CardTitle>
+                  <CardDescription className="text-xs">What students appreciated most</CardDescription>
                 </div>
                 
-                <CardContent className="pt-4">
-                  <ul className="space-y-4">
+                <CardContent className="pt-2 p-3">
+                  <ul className="space-y-2">
                     {performanceData.studentFeedback.positive.map((feedback, index) => (
-                      <li key={index} className="bg-blue-50 border border-blue-100 rounded-lg p-3">
-                        <div className="flex items-start gap-3">
+                      <li key={index} className="bg-blue-50 border border-blue-100 rounded-lg p-2">
+                        <div className="flex items-start gap-2">
                           <div className="bg-blue-100 p-1 rounded-full mt-0.5">
-                            <CheckCircle className="h-4 w-4 text-blue-700" />
+                            <CheckCircle className="h-3 w-3 text-blue-700" />
                           </div>
                           <div>
-                            <p className="text-sm">{feedback}</p>
-                            <div className="mt-2 flex items-center text-xs text-blue-700">
-                              <span className="font-medium">Mentioned by 32% of students</span>
+                            <p className="text-xs">{feedback}</p>
+                            <div className="mt-1 flex items-center text-xs text-blue-700">
+                              <span className="font-medium text-[10px]">Mentioned by 32% of students</span>
                             </div>
                           </div>
                         </div>
@@ -184,23 +183,23 @@ const CoursePerformance = () => {
               </Card>
               
               <Card className="shadow-sm hover:shadow-md transition-shadow overflow-hidden border-purple-200">
-                <div className="bg-gradient-to-r from-purple-50 to-pink-50 px-6 py-4 border-b border-purple-100">
-                  <CardTitle className="text-lg">Critical Feedback</CardTitle>
-                  <CardDescription className="mt-1">Areas students identified for improvement</CardDescription>
+                <div className="bg-gradient-to-r from-purple-50 to-pink-50 px-4 py-2 border-b border-purple-100">
+                  <CardTitle className="text-base">Critical Feedback</CardTitle>
+                  <CardDescription className="text-xs">Areas students identified for improvement</CardDescription>
                 </div>
                 
-                <CardContent className="pt-4">
-                  <ul className="space-y-4">
+                <CardContent className="pt-2 p-3">
+                  <ul className="space-y-2">
                     {performanceData.studentFeedback.negative.map((feedback, index) => (
-                      <li key={index} className="bg-purple-50 border border-purple-100 rounded-lg p-3">
-                        <div className="flex items-start gap-3">
+                      <li key={index} className="bg-purple-50 border border-purple-100 rounded-lg p-2">
+                        <div className="flex items-start gap-2">
                           <div className="bg-purple-100 p-1 rounded-full mt-0.5">
-                            <AlertTriangle className="h-4 w-4 text-purple-700" />
+                            <AlertTriangle className="h-3 w-3 text-purple-700" />
                           </div>
                           <div>
-                            <p className="text-sm">{feedback}</p>
-                            <div className="mt-2 flex items-center text-xs text-purple-700">
-                              <span className="font-medium">Mentioned by 18% of students</span>
+                            <p className="text-xs">{feedback}</p>
+                            <div className="mt-1 flex items-center text-xs text-purple-700">
+                              <span className="font-medium text-[10px]">Mentioned by 18% of students</span>
                             </div>
                           </div>
                         </div>
