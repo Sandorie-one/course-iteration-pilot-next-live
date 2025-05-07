@@ -72,6 +72,32 @@ type PerformanceData = {
   courseHealthScore: number;
 };
 
+// Course structure types
+type ContentItem = {
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  isHighlighted: boolean;
+  isModified: boolean;
+  isNew: boolean;
+};
+
+type ContentType = {
+  id: string;
+  name: string;
+  items: ContentItem[];
+};
+
+type CourseWeek = {
+  id: string;
+  order: number;
+  title: string;
+  description: string;
+  isHighlighted: boolean;
+  contentTypes: ContentType[];
+};
+
 interface WizardContextType {
   currentStep: number;
   totalSteps: number;
@@ -86,6 +112,12 @@ interface WizardContextType {
   selectCourse: (course: Course) => void;
   updateSuggestion: (id: string, selected: boolean) => void;
   coursesList: Course[];
+  // New properties for course structure
+  courseStructure: CourseWeek[];
+  previewSuggestion: (id: string | null) => void;
+  applySuggestion: (id: string) => void;
+  activePreviewId: string | null;
+  appliedSuggestions: string[];
 }
 
 const defaultContext: WizardContextType = {
@@ -101,7 +133,13 @@ const defaultContext: WizardContextType = {
   goToStep: () => {},
   selectCourse: () => {},
   updateSuggestion: () => {},
-  coursesList: []
+  coursesList: [],
+  // New default values
+  courseStructure: [],
+  previewSuggestion: () => {},
+  applySuggestion: () => {},
+  activePreviewId: null,
+  appliedSuggestions: []
 };
 
 const WizardContext = createContext<WizardContextType>(defaultContext);
@@ -116,6 +154,11 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
   const [courseModules, setCourseModules] = useState<CourseModule[]>([]);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [performanceData, setPerformanceData] = useState<PerformanceData | null>(null);
+  
+  // New state for course structure
+  const [courseStructure, setCourseStructure] = useState<CourseWeek[]>([]);
+  const [activePreviewId, setActivePreviewId] = useState<string | null>(null);
+  const [appliedSuggestions, setAppliedSuggestions] = useState<string[]>([]);
 
   // Mock course data
   const coursesList = [
@@ -182,6 +225,192 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
     if (step >= 1 && step <= totalSteps) {
       setCurrentStep(step);
     }
+  };
+
+  // Function to create mock course structure
+  const createMockCourseStructure = () => {
+    return [
+      {
+        id: "week1",
+        order: 1,
+        title: "Course Introduction",
+        description: "Introduction to the course and fundamental concepts",
+        isHighlighted: false,
+        contentTypes: [
+          {
+            id: "lectures-w1",
+            name: "Lectures",
+            items: [
+              {
+                id: "lec1",
+                title: "Course Overview & Syllabus",
+                description: "Introduction to course objectives and expectations",
+                type: "lecture",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              },
+              {
+                id: "lec2",
+                title: "Introduction to Key Concepts",
+                description: "Overview of fundamental concepts",
+                type: "lecture",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          },
+          {
+            id: "assignments-w1",
+            name: "Assignments",
+            items: [
+              {
+                id: "assign1",
+                title: "Concept Mapping Exercise",
+                description: "Create a concept map of key terms",
+                type: "assignment",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          },
+          {
+            id: "quizzes-w1",
+            name: "Quizzes",
+            items: [
+              {
+                id: "quiz1",
+                title: "Basic Terminology Quiz",
+                description: "Test on basic terminology",
+                type: "quiz",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: "week2",
+        order: 2,
+        title: "Core Principles",
+        description: "Exploring core principles and methodologies",
+        isHighlighted: false,
+        contentTypes: [
+          {
+            id: "lectures-w2",
+            name: "Lectures",
+            items: [
+              {
+                id: "lec3",
+                title: "Foundation Principles",
+                description: "Detailed exploration of foundation principles",
+                type: "lecture",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              },
+              {
+                id: "lec4",
+                title: "Application Methods",
+                description: "Methods for practical applications",
+                type: "lecture",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          },
+          {
+            id: "readings-w2",
+            name: "Readings",
+            items: [
+              {
+                id: "read1",
+                title: "Core Concepts Research Paper",
+                description: "Recent research on core concepts",
+                type: "reading",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          },
+          {
+            id: "assignments-w2",
+            name: "Assignments",
+            items: [
+              {
+                id: "assign2",
+                title: "Principle Application Task",
+                description: "Apply principles to a real-world scenario",
+                type: "assignment",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: "week3",
+        order: 3,
+        title: "Advanced Topics",
+        description: "Deep dive into advanced topics and techniques",
+        isHighlighted: false,
+        contentTypes: [
+          {
+            id: "lectures-w3",
+            name: "Lectures",
+            items: [
+              {
+                id: "lec5",
+                title: "Advanced Methodologies",
+                description: "Exploration of cutting-edge methods",
+                type: "lecture",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          },
+          {
+            id: "workshops-w3",
+            name: "Workshops",
+            items: [
+              {
+                id: "wkshp1",
+                title: "Practical Implementation Workshop",
+                description: "Hands-on session implementing advanced techniques",
+                type: "workshop",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          },
+          {
+            id: "assignments-w3",
+            name: "Assignments",
+            items: [
+              {
+                id: "assign3",
+                title: "Advanced Implementation Project",
+                description: "Complex project applying advanced concepts",
+                type: "assignment",
+                isHighlighted: false,
+                isModified: false,
+                isNew: false
+              }
+            ]
+          }
+        ]
+      }
+    ];
   };
 
   const selectCourse = (course: Course) => {
@@ -306,9 +535,13 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         courseHealthScore: 71
       };
 
+      // Initialize course structure
+      const mockCourseStructure = createMockCourseStructure();
+
       setCourseModules(modules);
       setSuggestions(courseSuggestions);
       setPerformanceData(mockPerformanceData);
+      setCourseStructure(mockCourseStructure);
       setIsLoading(false);
     }, 1000);
   };
@@ -319,6 +552,283 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         suggestion.id === id ? { ...suggestion, selected } : suggestion
       )
     );
+  };
+
+  // New functions for suggestion interactions with course structure
+  const previewSuggestion = (id: string | null) => {
+    // Reset all highlights
+    const resetStructure = courseStructure.map(week => ({
+      ...week,
+      isHighlighted: false,
+      contentTypes: week.contentTypes.map(contentType => ({
+        ...contentType,
+        items: contentType.items.map(item => ({
+          ...item,
+          isHighlighted: false
+        }))
+      }))
+    }));
+
+    if (!id) {
+      setCourseStructure(resetStructure);
+      setActivePreviewId(null);
+      return;
+    }
+
+    // Find the suggestion
+    const suggestion = suggestions.find(s => s.id === id);
+    if (!suggestion) return;
+
+    // Highlight appropriate course sections based on suggestion
+    let updatedStructure = [...resetStructure];
+    
+    // This is simplified logic - in a real app, you would have more complex targeting
+    switch (suggestion.id) {
+      case "s1": // Add interactive quiz
+        updatedStructure = updatedStructure.map(week => 
+          week.order === 1 ? {
+            ...week,
+            isHighlighted: true,
+            contentTypes: week.contentTypes.map(ct => 
+              ct.id === "quizzes-w1" ? {
+                ...ct,
+                items: ct.items.map(item => ({
+                  ...item,
+                  isHighlighted: true
+                }))
+              } : ct
+            )
+          } : week
+        );
+        break;
+        
+      case "s2": // Include more visual examples
+        updatedStructure = updatedStructure.map(week => 
+          week.order === 2 ? {
+            ...week,
+            isHighlighted: true,
+            contentTypes: week.contentTypes.map(ct => 
+              ct.id === "lectures-w2" ? {
+                ...ct,
+                items: ct.items.map(item => ({
+                  ...item,
+                  isHighlighted: true
+                }))
+              } : ct
+            )
+          } : week
+        );
+        break;
+        
+      case "s3": // Restructure content flow
+        updatedStructure = updatedStructure.map(week => 
+          week.order === 3 ? {
+            ...week,
+            isHighlighted: true,
+            contentTypes: week.contentTypes.map(ct => ({
+              ...ct,
+              items: ct.items.map(item => ({
+                ...item,
+                isHighlighted: true
+              }))
+            }))
+          } : week
+        );
+        break;
+        
+      case "s4": // Add industry case studies
+        updatedStructure = updatedStructure.map(week => 
+          week.order === 2 ? {
+            ...week,
+            contentTypes: week.contentTypes.map(ct => 
+              ct.id === "readings-w2" ? {
+                ...ct,
+                items: ct.items.map(item => ({
+                  ...item,
+                  isHighlighted: true
+                }))
+              } : ct
+            )
+          } : week
+        );
+        break;
+        
+      case "s5": // Create milestone structure
+        updatedStructure = updatedStructure.map(week => 
+          week.order === 3 ? {
+            ...week,
+            contentTypes: week.contentTypes.map(ct => 
+              ct.id === "assignments-w3" ? {
+                ...ct,
+                items: ct.items.map(item => ({
+                  ...item,
+                  isHighlighted: true
+                }))
+              } : ct
+            )
+          } : week
+        );
+        break;
+    }
+
+    setCourseStructure(updatedStructure);
+    setActivePreviewId(id);
+  };
+
+  const applySuggestion = (id: string) => {
+    // Find the suggestion
+    const suggestion = suggestions.find(s => s.id === id);
+    if (!suggestion) return;
+    
+    // Reset all highlights first
+    const resetStructure = courseStructure.map(week => ({
+      ...week,
+      isHighlighted: false,
+      contentTypes: week.contentTypes.map(contentType => ({
+        ...contentType,
+        items: contentType.items.map(item => ({
+          ...item,
+          isHighlighted: false
+        }))
+      }))
+    }));
+
+    // Apply changes based on suggestion
+    let updatedStructure = [...resetStructure];
+    
+    switch (suggestion.id) {
+      case "s1": // Add interactive quiz
+        updatedStructure = updatedStructure.map(week => 
+          week.order === 1 ? {
+            ...week,
+            contentTypes: week.contentTypes.map(ct => 
+              ct.id === "quizzes-w1" ? {
+                ...ct,
+                items: [
+                  ...ct.items,
+                  {
+                    id: "quiz-new-1",
+                    title: "Interactive Module Completion Quiz",
+                    description: "Interactive quiz with feedback to reinforce key concepts",
+                    type: "quiz",
+                    isHighlighted: false,
+                    isModified: true,
+                    isNew: true
+                  }
+                ]
+              } : ct
+            )
+          } : week
+        );
+        break;
+        
+      case "s2": // Include more visual examples
+        updatedStructure = updatedStructure.map(week => 
+          week.order === 2 ? {
+            ...week,
+            contentTypes: week.contentTypes.map(ct => 
+              ct.id === "lectures-w2" ? {
+                ...ct,
+                items: ct.items.map(item => 
+                  item.id === "lec3" ? {
+                    ...item,
+                    title: "Foundation Principles with Visual Aids",
+                    isModified: true
+                  } : item
+                )
+              } : ct
+            )
+          } : week
+        );
+        break;
+        
+      case "s3": // Restructure content flow
+        updatedStructure = updatedStructure.map(week => 
+          week.order === 3 ? {
+            ...week,
+            contentTypes: week.contentTypes.map(ct => ({
+              ...ct,
+              items: ct.items.map(item => ({
+                ...item,
+                isModified: true
+              }))
+            }))
+          } : week
+        );
+        break;
+        
+      case "s4": // Add industry case studies
+        updatedStructure = updatedStructure.map(week => 
+          week.order === 2 ? {
+            ...week,
+            contentTypes: week.contentTypes.map(ct => 
+              ct.id === "readings-w2" ? {
+                ...ct,
+                items: [
+                  ...ct.items,
+                  {
+                    id: "read-new-1",
+                    title: "Industry Case Study: Real-World Applications",
+                    description: "Analysis of recent industry examples",
+                    type: "reading",
+                    isHighlighted: false,
+                    isModified: true,
+                    isNew: true
+                  }
+                ]
+              } : ct
+            )
+          } : week
+        );
+        break;
+        
+      case "s5": // Create milestone structure
+        updatedStructure = updatedStructure.map(week => 
+          week.order === 3 ? {
+            ...week,
+            contentTypes: week.contentTypes.map(ct => 
+              ct.id === "assignments-w3" ? {
+                ...ct,
+                items: [
+                  {
+                    id: "assign3-1",
+                    title: "Project Milestone 1: Planning",
+                    description: "Initial project planning and requirements",
+                    type: "assignment",
+                    isHighlighted: false,
+                    isModified: true,
+                    isNew: true
+                  },
+                  {
+                    id: "assign3-2",
+                    title: "Project Milestone 2: Implementation",
+                    description: "Core implementation of project features",
+                    type: "assignment",
+                    isHighlighted: false,
+                    isModified: true,
+                    isNew: true
+                  },
+                  {
+                    id: "assign3-3",
+                    title: "Project Final Submission",
+                    description: "Final project with documentation and reflection",
+                    type: "assignment",
+                    isHighlighted: false,
+                    isModified: true,
+                    isNew: false
+                  }
+                ]
+              } : ct
+            )
+          } : week
+        );
+        break;
+    }
+    
+    // Mark suggestion as applied
+    setAppliedSuggestions([...appliedSuggestions, id]);
+    setCourseStructure(updatedStructure);
+    setActivePreviewId(null);
   };
 
   return (
@@ -336,7 +846,13 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         goToStep,
         selectCourse,
         updateSuggestion,
-        coursesList
+        coursesList,
+        // New values
+        courseStructure,
+        previewSuggestion,
+        applySuggestion,
+        activePreviewId,
+        appliedSuggestions
       }}
     >
       {children}
