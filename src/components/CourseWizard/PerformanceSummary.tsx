@@ -1,8 +1,7 @@
 
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { AlertTriangle } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
+import { AlertTriangle, Info } from "lucide-react";
 
 type PerformanceSummaryProps = {
   opportunityCount: number;
@@ -10,29 +9,22 @@ type PerformanceSummaryProps = {
 
 const PerformanceSummary = ({ opportunityCount }: PerformanceSummaryProps) => {
   return (
-    <Card className="border-l-4 border-amber-500 hover:shadow-lg transition-shadow overflow-hidden">
-      <div className="bg-gradient-to-r from-amber-50 to-orange-50">
-        <CardContent className="p-5">
-          <div className="w-full">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-lg font-semibold">Improvement Opportunities</h3>
-              <span className="text-xl font-bold">{opportunityCount}</span>
-            </div>
-            
-            <Progress value={(opportunityCount / 5) * 100} className="h-2 mb-3" />
-            
-            <div className="flex items-start mt-2 gap-3">
-              <div className="bg-amber-100 p-1.5 rounded-full mt-0.5">
-                <AlertTriangle className="h-5 w-5 text-amber-600" />
-              </div>
-              <span className="text-sm">
-                We've identified <strong>{opportunityCount} critical opportunities</strong> to improve this course.
-                Addressing these areas will significantly enhance student engagement and learning outcomes.
-              </span>
-            </div>
+    <Card>
+      <CardContent className="p-4">
+        <div className="w-full">
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="text-sm font-medium">Improvement Opportunities</h3>
+            <span className="text-base font-bold">{opportunityCount}</span>
           </div>
-        </CardContent>
-      </div>
+          <div className="flex items-center mt-2 gap-2">
+            <Info className="h-4 w-4 text-blue-500" />
+            <span className="text-sm">
+              We've identified {opportunityCount} opportunities to improve this course.
+              Focus on addressing these areas when creating your new course.
+            </span>
+          </div>
+        </div>
+      </CardContent>
     </Card>
   );
 };
