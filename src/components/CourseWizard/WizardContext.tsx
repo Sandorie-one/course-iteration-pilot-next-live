@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 type Course = {
@@ -19,6 +18,7 @@ type CourseModule = {
   order: number;
 };
 
+// Enhanced Suggestion type with additional fields
 type Suggestion = {
   id: string;
   moduleId: string;
@@ -27,6 +27,13 @@ type Suggestion = {
   impact: "high" | "medium" | "low";
   effort: "high" | "medium" | "low";
   selected: boolean;
+  // New fields for enhanced suggestion cards
+  problemDescription: string;
+  impactOnLearning: string;
+  expectedImprovement: string;
+  sourceData: string;
+  confidenceScore: number;
+  timeToImplement: number;
 };
 
 type PerformanceData = {
@@ -428,52 +435,82 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         { id: "m5", title: "Final Project", description: "Capstone project implementing learned concepts", duration: 6, order: 5 }
       ];
       
-      // Mock suggestions - ensure we use the correct types for impact and effort
+      // Enhanced mock suggestions with problem descriptions and expected improvements
       const courseSuggestions: Suggestion[] = [
         { 
           id: "s1", 
           moduleId: "m1", 
-          title: "Add interactive quiz",
+          title: "Add interactive quiz to introduction module",
           description: "Add an interactive quiz at the end of the introduction module to improve engagement and retention",
           impact: "high", 
           effort: "low", 
-          selected: false 
+          selected: false,
+          problemDescription: "Student participation drops significantly after introduction module (89% to 82%)",
+          impactOnLearning: "Reinforce foundational concepts with immediate feedback",
+          expectedImprovement: "Estimated 15% increase in knowledge retention for course fundamentals",
+          sourceData: "Module completion data and participation metrics",
+          confidenceScore: 87,
+          timeToImplement: 0.75
         },
         { 
           id: "s2", 
           moduleId: "m2", 
-          title: "Include more visual examples",
+          title: "Include more visual examples in Basic Concepts module",
           description: "Add more diagrams and visual examples to explain abstract concepts",
           impact: "medium", 
           effort: "medium", 
-          selected: false 
+          selected: false,
+          problemDescription: "Student feedback indicates difficulty understanding abstract concepts (32% mention in surveys)",
+          impactOnLearning: "Improve comprehension of core theoretical concepts",
+          expectedImprovement: "Potential 20% improvement in Module 2 quiz scores (currently averaging 78%)",
+          sourceData: "Student feedback surveys and quiz performance data",
+          confidenceScore: 92,
+          timeToImplement: 1.5
         },
         { 
           id: "s3", 
           moduleId: "m3", 
-          title: "Restructure content flow",
+          title: "Restructure Advanced Topics content flow",
           description: "Reorganize advanced topics to build more logically on previous concepts",
           impact: "high", 
           effort: "high", 
-          selected: false 
+          selected: false,
+          problemDescription: "Module 3 has the lowest score (62%) and highest drop-off rate (32%)",
+          impactOnLearning: "Create clearer progression path through complex concepts",
+          expectedImprovement: "Expected 25% increase in module completion rate and 18% improvement in quiz scores",
+          sourceData: "Module performance data and learning path analysis",
+          confidenceScore: 78,
+          timeToImplement: 3
         },
         { 
           id: "s4", 
           moduleId: "m4", 
-          title: "Add industry case studies",
+          title: "Add industry case studies to Practical Applications",
           description: "Include recent case studies from industry to demonstrate practical relevance",
           impact: "medium", 
           effort: "medium", 
-          selected: false 
+          selected: false,
+          problemDescription: "Student engagement drops for theoretical content (participation rate: 76%)",
+          impactOnLearning: "Connect abstract concepts to real-world applications",
+          expectedImprovement: "Projected 15% increase in engagement and 12% improvement in application skills",
+          sourceData: "Student feedback requesting more practical examples and engagement metrics",
+          confidenceScore: 83,
+          timeToImplement: 2
         },
         { 
           id: "s5", 
           moduleId: "m5", 
-          title: "Create milestone structure",
+          title: "Create milestone structure for Final Project",
           description: "Break final project into milestone deliverables to improve completion rates",
           impact: "high", 
           effort: "medium", 
-          selected: false 
+          selected: false,
+          problemDescription: "Final project has lowest completion rate (65%) and student feedback indicates confusion on requirements",
+          impactOnLearning: "Provide clearer structure and incremental progress tracking",
+          expectedImprovement: "Expected 25% higher completion rate and 20% quality improvement in final submissions",
+          sourceData: "Project submission times, completion rates, and quality metrics",
+          confidenceScore: 95,
+          timeToImplement: 1
         }
       ];
       

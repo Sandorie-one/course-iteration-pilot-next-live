@@ -29,9 +29,9 @@ const WizardContent = () => {
     }
   };
 
-  // Adjust height for AISuggestions step to give more space
+  // Adjust height for AISuggestions step to give more space for the enhanced cards
   const getScrollAreaHeight = () => {
-    return currentStep === 3 ? "h-[calc(100vh-200px)]" : "h-[calc(100vh-260px)]";
+    return currentStep === 3 ? "h-[calc(100vh-180px)]" : "h-[calc(100vh-260px)]";
   };
 
   return (

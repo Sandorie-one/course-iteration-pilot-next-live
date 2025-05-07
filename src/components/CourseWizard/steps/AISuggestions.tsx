@@ -4,7 +4,7 @@ import { useWizard } from "../WizardContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Eye, Check, ChevronDown, ChevronUp } from "lucide-react";
+import { Eye, Check, ChevronDown, ChevronUp, Clock, AlertTriangle, Lightbulb, ArrowRight } from "lucide-react";
 import { 
   Accordion, 
   AccordionContent, 
@@ -12,6 +12,7 @@ import {
   AccordionTrigger 
 } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Progress } from "@/components/ui/progress";
 
 const AISuggestions = () => {
   const { 
@@ -24,7 +25,8 @@ const AISuggestions = () => {
     previewSuggestion,
     applySuggestion,
     activePreviewId,
-    appliedSuggestions
+    appliedSuggestions,
+    performanceData
   } = useWizard();
 
   const [expandedSuggestions, setExpandedSuggestions] = useState<Record<string, boolean>>({});
@@ -124,34 +126,73 @@ const AISuggestions = () => {
                             ${isApplied ? 'bg-green-50 border-green-200' : 
                               isPreviewing ? 'bg-blue-50 border-blue-200' : 'hover:bg-slate-50'}`}
                         >
-                          <div className="flex items-start justify-between">
+                          <div className="flex items-start justify-between gap-2">
                             <div className="flex-1">
-                              <div className="flex gap-2 items-center">
-                                <h4 className="font-medium text-sm">{suggestion.title}</h4>
-                                <CollapsibleTrigger 
-                                  onClick={() => toggleSuggestionExpand(suggestion.id)}
-                                  className="ml-auto text-slate-500 hover:text-slate-900 p-1 rounded-full hover:bg-slate-100"
-                                >
-                                  {isExpanded ? 
-                                    <ChevronUp className="h-4 w-4" /> : 
-                                    <ChevronDown className="h-4 w-4" />
-                                  }
-                                </CollapsibleTrigger>
+                              <div className="flex items-start gap-2">
+                                <Lightbulb className="h-5 w-5 text-amber-500 mt-0.5 shrink-0" />
+                                <div>
+                                  <h4 className="font-medium">{suggestion.title}</h4>
+                                  <CollapsibleTrigger 
+                                    onClick={() => toggleSuggestionExpand(suggestion.id)}
+                                    className="mt-1 text-sm text-blue-600 hover:text-blue-800 flex items-center"
+                                  >
+                                    {isExpanded ? 'Show less' : 'Show details'}
+                                    {isExpanded ? 
+                                      <ChevronUp className="h-4 w-4 ml-1" /> : 
+                                      <ChevronDown className="h-4 w-4 ml-1" />
+                                    }
+                                  </CollapsibleTrigger>
+                                </div>
                               </div>
                               
                               <div className="flex flex-wrap gap-1 mt-2">
                                 {getImpactBadge(suggestion.impact)}
                                 {getEffortBadge(suggestion.effort)}
+                                <Badge variant="outline" className="bg-slate-50">
+                                  {suggestion.confidenceScore}% confidence
+                                </Badge>
                               </div>
                             </div>
                           </div>
 
-                          <CollapsibleContent className="mt-3">
-                            <p className="text-sm text-slate-600 mb-3">
-                              {suggestion.description}
-                            </p>
+                          <CollapsibleContent className="mt-4 space-y-4">
+                            <div className="bg-amber-50 border border-amber-200 rounded-md p-3">
+                              <div className="flex items-center gap-2 text-amber-800 font-medium mb-1">
+                                <AlertTriangle className="h-4 w-4" />
+                                <h5>Problem Identified</h5>
+                              </div>
+                              <p className="text-sm text-slate-700">
+                                {suggestion.problemDescription}
+                              </p>
+                            </div>
                             
-                            <div className="flex gap-2">
+                            <div className="space-y-3">
+                              <div>
+                                <h5 className="text-sm font-medium text-slate-700 mb-1">Impact on Learning</h5>
+                                <p className="text-sm text-slate-600">{suggestion.impactOnLearning}</p>
+                              </div>
+                              
+                              <div>
+                                <h5 className="text-sm font-medium text-slate-700 mb-1">Expected Improvement</h5>
+                                <p className="text-sm text-slate-600">{suggestion.expectedImprovement}</p>
+                              </div>
+                              
+                              <div>
+                                <h5 className="text-sm font-medium text-slate-700 mb-1">Based On</h5>
+                                <p className="text-sm text-slate-600">{suggestion.sourceData}</p>
+                              </div>
+                              
+                              <div className="pt-1">
+                                <div className="flex items-center gap-1">
+                                  <Clock className="h-4 w-4 text-slate-400" />
+                                  <span className="text-sm text-slate-500">
+                                    Est. {suggestion.timeToImplement} {suggestion.timeToImplement === 1 ? 'hour' : 'hours'} to implement
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div className="flex gap-2 pt-2">
                               {!isApplied ? (
                                 <>
                                   <Button 
@@ -165,9 +206,10 @@ const AISuggestions = () => {
                                   </Button>
                                   <Button 
                                     size="sm" 
+                                    className="gap-1"
                                     onClick={() => applySuggestion(suggestion.id)}
                                   >
-                                    <Check className="h-3 w-3 mr-1" />
+                                    <Check className="h-3 w-3" />
                                     Apply
                                   </Button>
                                 </>
@@ -175,10 +217,10 @@ const AISuggestions = () => {
                                 <Button 
                                   size="sm" 
                                   variant="ghost"
-                                  className="text-green-700 bg-green-50"
+                                  className="text-green-700 bg-green-50 gap-1"
                                   disabled
                                 >
-                                  <Check className="h-3 w-3 mr-1" />
+                                  <Check className="h-3 w-3" />
                                   Applied
                                 </Button>
                               )}
