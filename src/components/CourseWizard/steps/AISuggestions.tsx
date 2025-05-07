@@ -4,7 +4,7 @@ import { useWizard } from "../WizardContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Eye, Check, ChevronDown, ChevronUp, Clock, AlertTriangle, Lightbulb, ArrowRight } from "lucide-react";
+import { Eye, Check, ChevronDown, ChevronUp, Clock, AlertTriangle, Lightbulb, ArrowRight, ArrowUp, Users, GraduationCap, Star } from "lucide-react";
 import { 
   Accordion, 
   AccordionContent, 
@@ -53,16 +53,68 @@ const AISuggestions = () => {
         return <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-200 border-gray-200">Low Impact</Badge>;
     }
   };
-
-  const getEffortBadge = (effort: "high" | "medium" | "low") => {
-    switch (effort) {
-      case "high":
-        return <Badge variant="outline" className="border-red-300 text-red-800">High Effort</Badge>;
-      case "medium":
-        return <Badge variant="outline" className="border-amber-300 text-amber-800">Medium Effort</Badge>;
-      case "low":
-        return <Badge variant="outline" className="border-green-300 text-green-800">Low Effort</Badge>;
+  
+  // New function to generate outcome metric badges
+  const getMetricsBadges = (suggestion: any) => {
+    const metrics = [];
+    
+    // Extract metrics from expected improvement text
+    const expectedImprovement = suggestion.expectedImprovement;
+    
+    // Parse for grade improvements
+    const gradeMatch = expectedImprovement.match(/(\d+)%\s+(?:increase|improvement|higher|better)\s+(?:in|on)\s+(?:grade|score|quiz score|module score)/i);
+    if (gradeMatch) {
+      metrics.push(
+        <Badge key="grade" className="bg-green-50 text-green-700 border-green-200 flex items-center gap-1">
+          <ArrowUp className="h-3 w-3" />
+          +{gradeMatch[1]}% grades
+        </Badge>
+      );
     }
+    
+    // Parse for completion/retention improvements
+    const completionMatch = expectedImprovement.match(/(\d+)%\s+(?:increase|improvement|higher)\s+(?:in|on)\s+(?:completion|retention|knowledge retention)/i);
+    if (completionMatch) {
+      metrics.push(
+        <Badge key="completion" className="bg-purple-50 text-purple-700 border-purple-200 flex items-center gap-1">
+          <GraduationCap className="h-3 w-3" />
+          +{completionMatch[1]}% retention
+        </Badge>
+      );
+    }
+    
+    // Parse for engagement improvements
+    const engagementMatch = expectedImprovement.match(/(\d+)%\s+(?:increase|improvement|higher)\s+(?:in|on)\s+(?:engagement|participation|student participation)/i);
+    if (engagementMatch) {
+      metrics.push(
+        <Badge key="engagement" className="bg-indigo-50 text-indigo-700 border-indigo-200 flex items-center gap-1">
+          <Users className="h-3 w-3" />
+          +{engagementMatch[1]}% engagement
+        </Badge>
+      );
+    }
+    
+    // Add comprehension badge for specific suggestions
+    if (suggestion.id === "s2" || expectedImprovement.includes("comprehension")) {
+      metrics.push(
+        <Badge key="comprehension" className="bg-blue-50 text-blue-700 border-blue-200 flex items-center gap-1">
+          <Star className="h-3 w-3" />
+          Improved comprehension
+        </Badge>
+      );
+    }
+    
+    // Add quality badge for final project suggestions
+    if (suggestion.id === "s5" && expectedImprovement.includes("quality")) {
+      metrics.push(
+        <Badge key="quality" className="bg-amber-50 text-amber-700 border-amber-200 flex items-center gap-1">
+          <Star className="h-3 w-3" />
+          Better project quality
+        </Badge>
+      );
+    }
+    
+    return metrics;
   };
 
   const toggleSuggestionExpand = (id: string) => {
@@ -147,10 +199,7 @@ const AISuggestions = () => {
                               
                               <div className="flex flex-wrap gap-1 mt-2">
                                 {getImpactBadge(suggestion.impact)}
-                                {getEffortBadge(suggestion.effort)}
-                                <Badge variant="outline" className="bg-slate-50">
-                                  {suggestion.confidenceScore}% confidence
-                                </Badge>
+                                {getMetricsBadges(suggestion)}
                               </div>
                             </div>
                           </div>
