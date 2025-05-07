@@ -171,8 +171,8 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         { id: "m5", title: "Final Project", description: "Capstone project implementing learned concepts", duration: 6, order: 5 }
       ];
       
-      // Mock suggestions
-      const courseSuggestions = [
+      // Mock suggestions - ensure we use the correct types for impact and effort
+      const courseSuggestions: Suggestion[] = [
         { 
           id: "s1", 
           moduleId: "m1", 
