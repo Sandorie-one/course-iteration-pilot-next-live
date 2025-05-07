@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useWizard } from "../WizardContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -68,7 +69,7 @@ const CoursePerformance = () => {
         
         <TabsContent value="overview">
           <div className="space-y-6">
-            {/* MODIFIED: Stacked Strengths & Improvement Areas instead of side-by-side */}
+            {/* Stacked Strengths & Improvement Areas instead of side-by-side */}
             <div className="space-y-6">
               {/* Strengths Card - Modified */}
               <Card className="shadow-sm hover:shadow-md transition-shadow overflow-hidden border-green-200">
@@ -153,8 +154,8 @@ const CoursePerformance = () => {
               </Card>
             </div>
 
-            {/* Student Feedback cards - Enhanced */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Student Feedback cards - Modified to stack vertically */}
+            <div className="space-y-6">
               <Card className="shadow-sm hover:shadow-md transition-shadow overflow-hidden border-blue-200">
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-blue-100">
                   <CardTitle className="text-lg">Positive Feedback</CardTitle>
